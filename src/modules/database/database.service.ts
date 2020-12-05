@@ -10,6 +10,7 @@ export class DatabaseService implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     const {
+      TYPEORM_CONNECTION,
       TYPEORM_HOST,
       TYPEORM_USERNAME,
       TYPEORM_PASSWORD,
@@ -19,7 +20,7 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       TYPEORM_LOGGING,
     } = this.configService.config
     return {
-      type: 'postgres',
+      type: TYPEORM_CONNECTION,
       host: TYPEORM_HOST,
       port: TYPEORM_PORT,
       username: TYPEORM_USERNAME,

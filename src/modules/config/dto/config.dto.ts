@@ -1,51 +1,52 @@
 import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 import { Transform, Type } from 'class-transformer'
+import { getBooleanValue } from '@shared/function.shared'
 
 export class ConfigDto {
   /**
-   * Окружение, в котором запускается
+   * name environment install
    */
   @IsOptional()
   @IsString()
   NODE_ENV = 'development'
 
   /**
-   * Название СУБД
+   * type DB
    */
   @IsNotEmpty()
   @IsString()
   TYPEORM_CONNECTION: 'postgres'
 
   /**
-   * Адрес базы
+   * host database
    */
   @IsNotEmpty()
   @IsString()
   TYPEORM_HOST: string
 
   /**
-   * Имя пользователя в базе
+   * username from base
    */
   @IsNotEmpty()
   @IsString()
   TYPEORM_USERNAME: string
 
   /**
-   * Пароль для базы
+   * password base
    */
   @IsNotEmpty()
   @IsString()
   TYPEORM_PASSWORD: string
 
   /**
-   * Имя базы данных
+   * name base
    */
   @IsNotEmpty()
   @IsString()
   TYPEORM_DATABASE: string
 
   /**
-   * Порт базы данных
+   *  port base
    */
   @IsNotEmpty()
   @Type(() => Number)
@@ -53,27 +54,20 @@ export class ConfigDto {
   TYPEORM_PORT: number
 
   /**
-   * Регулярное выражение к entity
-   */
-  @IsNotEmpty()
-  @IsString()
-  TYPEORM_ENTITIES: string
-
-  /**
-   * Синхронизация моделей базы
+   * base is synchronize
    * @default false
    */
   @IsOptional()
   @IsBoolean()
-  @Transform((value) => (value === 'true' ? true : value === 'false' ? false : value))
-  TYPEORM_SYNCHRONIZE: boolean = false
+  @Transform((value) => getBooleanValue(value))
+  TYPEORM_SYNCHRONIZE = false
 
   /**
-   * Логирование typeOrm
+   * typeOrm is logging
    * @default false
    */
   @IsOptional()
   @IsBoolean()
-  @Transform((value) => (value === 'true' ? true : value === 'false' ? false : value))
-  TYPEORM_LOGGING: boolean = false
+  @Transform((value) => getBooleanValue(value))
+  TYPEORM_LOGGING = false
 }

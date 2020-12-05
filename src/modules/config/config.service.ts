@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { parse } from 'dotenv'
+import { DotenvParseOutput, parse } from 'dotenv'
 import * as fs from 'fs'
 import { Validator } from 'class-validator'
 import { plainToClass } from 'class-transformer'
@@ -13,7 +13,7 @@ export class ConfigService {
 
   constructor(@Inject(CONFIG_MODULE_PATH) filePath: string) {
     const isExistFile = fs.existsSync(filePath)
-    let rawConfigFile: any
+    let rawConfigFile: DotenvParseOutput
     if (isExistFile) {
       rawConfigFile = parse(fs.readFileSync(filePath))
     } else {
@@ -31,7 +31,7 @@ export class ConfigService {
     const transformed = plainToClass(ConfigDto, rawConfigFile)
     const validationErrors = validator.validateSync(transformed)
     if (validationErrors.length) {
-      throw validationErrors
+      throw new Error(validationErrors.toString())
     }
     return transformed
   }
