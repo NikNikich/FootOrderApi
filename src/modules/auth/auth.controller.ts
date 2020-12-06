@@ -48,6 +48,6 @@ export class AuthController {
     description: 'Logout is successful',
   })
   async signOut(): Promise<string> {
-    return 'change_password';
+    return 'logout';
   }
 }
