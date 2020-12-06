@@ -1,6 +1,6 @@
-import { DynamicModule, Global, Module } from '@nestjs/common'
-import { CONFIG_MODULE_PATH } from './constant/config.constant'
-import { ConfigService } from './config.service'
+import { DynamicModule, Global, Module } from '@nestjs/common';
+import { CONFIG_MODULE_PATH } from './constant/config.constant';
+import { ConfigService } from './config.service';
 
 @Global()
 @Module({})
@@ -19,6 +19,6 @@ export class ConfigModule {
         },
       ],
       exports: [CONFIG_MODULE_PATH, ConfigService],
-    }
+    };
   }
 }

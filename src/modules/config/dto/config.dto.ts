@@ -1,6 +1,12 @@
-import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator'
-import { Transform, Type } from 'class-transformer'
-import { getBooleanValue } from '@shared/function.shared'
+import {
+  IsBoolean,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { getBooleanValue } from '@shared/function.shared';
 
 export class ConfigDto {
   /**
@@ -8,42 +14,42 @@ export class ConfigDto {
    */
   @IsOptional()
   @IsString()
-  NODE_ENV = 'development'
+  NODE_ENV = 'development';
 
   /**
    * type DB
    */
   @IsNotEmpty()
   @IsString()
-  TYPEORM_CONNECTION: 'postgres'
+  TYPEORM_CONNECTION: 'postgres';
 
   /**
    * host database
    */
   @IsNotEmpty()
   @IsString()
-  TYPEORM_HOST: string
+  TYPEORM_HOST: string;
 
   /**
    * username from base
    */
   @IsNotEmpty()
   @IsString()
-  TYPEORM_USERNAME: string
+  TYPEORM_USERNAME: string;
 
   /**
    * password base
    */
   @IsNotEmpty()
   @IsString()
-  TYPEORM_PASSWORD: string
+  TYPEORM_PASSWORD: string;
 
   /**
    * name base
    */
   @IsNotEmpty()
   @IsString()
-  TYPEORM_DATABASE: string
+  TYPEORM_DATABASE: string;
 
   /**
    *  port base
@@ -51,7 +57,7 @@ export class ConfigDto {
   @IsNotEmpty()
   @Type(() => Number)
   @IsInt()
-  TYPEORM_PORT: number
+  TYPEORM_PORT: number;
 
   /**
    * base is synchronize
@@ -60,7 +66,7 @@ export class ConfigDto {
   @IsOptional()
   @IsBoolean()
   @Transform((value) => getBooleanValue(value))
-  TYPEORM_SYNCHRONIZE = false
+  TYPEORM_SYNCHRONIZE = false;
 
   /**
    * typeOrm is logging
@@ -69,5 +75,5 @@ export class ConfigDto {
   @IsOptional()
   @IsBoolean()
   @Transform((value) => getBooleanValue(value))
-  TYPEORM_LOGGING = false
+  TYPEORM_LOGGING = false;
 }
