@@ -1,8 +1,11 @@
-import { resolve } from 'path'
-import { Injectable } from '@nestjs/common'
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
-import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm'
-import { ConfigService } from '../config/config.service'
+import { resolve } from 'path';
+import { Injectable } from '@nestjs/common';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import {
+  TypeOrmModuleOptions,
+  TypeOrmOptionsFactory,
+} from '@nestjs/typeorm';
+import { ConfigService } from '../config/config.service';
 
 @Injectable()
 export class DatabaseService implements TypeOrmOptionsFactory {
@@ -18,7 +21,7 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       TYPEORM_PORT,
       TYPEORM_SYNCHRONIZE,
       TYPEORM_LOGGING,
-    } = this.configService.config
+    } = this.configService.config;
     return {
       type: TYPEORM_CONNECTION,
       host: TYPEORM_HOST,
@@ -27,11 +30,12 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       password: TYPEORM_PASSWORD,
       database: TYPEORM_DATABASE,
       entities: [`${resolve(__dirname, '..')}/**/*.entity{.ts,.js}`],
+      migrations: [`${resolve(__dirname)}/migrations/{*.ts,*.js}`],
       migrationsRun: true,
       logging: TYPEORM_LOGGING,
       cli: { migrationsDir: './migrations' },
       namingStrategy: new SnakeNamingStrategy(),
       synchronize: TYPEORM_SYNCHRONIZE || true,
-    }
+    };
   }
 }
