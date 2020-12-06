@@ -31,9 +31,6 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       database: TYPEORM_DATABASE,
       entities: [`${resolve(__dirname, '..')}/**/*.entity{.ts,.js}`],
       migrations: [`${resolve(__dirname)}/migrations/{*.ts,*.js}`],
-      subscribers: [
-        `${resolve(__dirname, '..')}/**/*.subscriber{.ts,.js}`,
-      ],
       migrationsRun: true,
       logging: TYPEORM_LOGGING,
       cli: { migrationsDir: './migrations' },
