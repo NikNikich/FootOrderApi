@@ -16,8 +16,8 @@ import { RowEntity } from '@modules/database/entity/shared/row.entity';
 
 @Entity('user')
 export class UserEntity extends RowEntity<UserEntity> {
-  @Column({ type: 'varchar', length: 255 })
-  fullName!: string;
+  @Column({ type: 'varchar', nullable: true, length: 255 })
+  fullName?: string;
 
   @Column({ type: 'varchar', length: 255, unique: true })
   email!: string;

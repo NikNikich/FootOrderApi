@@ -1,24 +1,40 @@
-import { Body, Controller, Post, Put } from '@nestjs/common';
 import {
+  Body,
+  Controller,
+  Post,
+  Put,
+  UseGuards,
+  Request,
+  Headers,
+} from '@nestjs/common';
+import {
+  ApiBody,
   ApiCreatedResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 import { AuthService } from '@modules/auth/auth.service';
+import { AuthGuard } from '@nestjs/passport';
+import { LoginParamsDto, LoginResponseDto } from '@modules/auth/dto';
+import { IUserPayloadParams } from '@modules/auth/type/IUserPayload';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiBody({ type: LoginParamsDto })
+  @UseGuards(AuthGuard('local'))
   @Post('sign-in')
   @ApiOperation({ summary: 'Sign in' })
   @ApiCreatedResponse({
-    type: String,
+    type: LoginResponseDto,
     description: 'Login is successful',
   })
-  async signIn(): Promise<string> {
-    return 'sign in';
+  async signIn(
+    @Request() req: { user: IUserPayloadParams },
+  ): Promise<LoginResponseDto> {
+    return this.authService.signIn(req.user);
   }
 
   @Post('sign-up')
@@ -41,13 +57,15 @@ export class AuthController {
     return 'change_password';
   }
 
-  @Post('sign-out')
-  @ApiOperation({ summary: 'Sign out of the app' })
+  @Post('refresh')
+  @ApiOperation({ summary: 'Refresh auth tokens' })
   @ApiCreatedResponse({
-    type: String,
-    description: 'Logout is successful',
+    type: LoginResponseDto,
+    description: 'Return new pair access and refresh tokens',
   })
-  async signOut(): Promise<string> {
-    return 'logout';
+  async refreshToken(
+    @Headers('refreshtoken') token: string,
+  ): Promise<string> {
+    return 'refresh';
   }
 }

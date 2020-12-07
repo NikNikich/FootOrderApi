@@ -76,4 +76,32 @@ export class ConfigDto {
   @IsBoolean()
   @Transform((value) => getBooleanValue(value))
   TYPEORM_LOGGING = false;
+
+  /**
+   * secret JWT key
+   */
+  @IsNotEmpty()
+  @IsString()
+  JWT_SECRET: string;
+
+  /**
+   * life time refresh tokens
+   */
+  @IsNotEmpty()
+  @IsString()
+  REFRESH_TOKEN_LIFE_TIME: string;
+
+  /**
+   * life time tokens
+   */
+  @IsNotEmpty()
+  @IsString()
+  TOKEN_TIME: string;
+
+  /**
+   * secret key from restore JWT
+   */
+  @IsNotEmpty()
+  @IsString()
+  JWT_RESTORE_SECRET: string;
 }
