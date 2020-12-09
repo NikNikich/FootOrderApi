@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from './database/database.module';
-import { ConfigModule } from './config/config.module';
+import { AuthModule } from '@modules/auth/auth.module';
+import { UserModule } from '@modules/user/user.module';
+import { DatabaseModule } from '@modules/database/database.module';
+import { ConfigModule } from '@modules/config/config.module';
 
 const envName = process.env.NODE_ENV
   ? `/.env.${process.env.NODE_ENV}`
@@ -10,6 +12,8 @@ const envName = process.env.NODE_ENV
   imports: [
     ConfigModule.register(process.cwd() + envName),
     DatabaseModule,
+    AuthModule,
+    UserModule,
   ],
   exports: [ConfigModule],
   providers: [ConfigModule],

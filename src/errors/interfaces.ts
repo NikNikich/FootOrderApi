@@ -1,4 +1,4 @@
-export enum HTTP_STATUSES {
+export enum HttpStatuses {
   BAD = 400,
   NOT_FOUND = 404,
   UNAUTHORIZED = 401,

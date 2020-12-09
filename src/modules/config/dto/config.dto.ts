@@ -6,7 +6,7 @@ import {
   IsString,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { getBooleanValue } from '@shared/function.shared';
+import { getBooleanValue } from '@shared/functions/get-boolean-value.shared';
 
 export class ConfigDto {
   /**

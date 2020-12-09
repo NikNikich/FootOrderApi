@@ -23,4 +23,14 @@ export class UserRepository extends BaseRepository<UserEntity> {
     }
     return user;
   }
+
+  async checkEmailUsage(
+    email: string,
+    userId?: number,
+  ): Promise<void> {
+    const userByEmail = await this.findOne({ email });
+    if (userByEmail && (!userId || userByEmail.id !== userId)) {
+      throw errors.EmailAlreadyUsed;
+    }
+  }
 }

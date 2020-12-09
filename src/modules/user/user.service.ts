@@ -3,12 +3,14 @@ import { UserRepository } from '@modules/database/repository/user.repository';
 import { UserRoleRepository } from '@modules/database/repository/user-role.repository';
 import { UserEntity } from '@modules/database/entity/user.entity';
 import * as bcrypt from 'bcryptjs';
+import { IUserCreateParams } from '@modules/auth/type/IUserPayload';
+import { UserRoleEntity } from '@modules/database/entity/user-role.entity';
 
 @Injectable()
 export class UserService {
   constructor(
-    private readonly userRepository: UserRepository,
     private readonly userRoleRepository: UserRoleRepository,
+    private readonly userRepository: UserRepository,
   ) {}
 
   async findByEmail(email: string): Promise<UserEntity> {
@@ -21,5 +23,26 @@ export class UserService {
 
   validatePassword(password: string, hash: string): boolean {
     return bcrypt.compareSync(password, hash);
+  }
+
+  async create(params: IUserCreateParams): Promise<UserEntity> {
+    const { password, roles, email } = params;
+    await this.userRepository.checkEmailUsage(email);
+    const hash = this.hashPassword(password);
+    const userRecord = new UserEntity({
+      email,
+      password: hash,
+    });
+    const result = await this.userRepository.save(userRecord);
+    const userId = result.id;
+    const rolesRecords = (roles || []).map(
+      (role) => new UserRoleEntity({ role, userId }),
+    );
+    result.roles = await this.userRoleRepository.save(rolesRecords);
+    return result;
+  }
+
+  hashPassword(password: string): string {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
   }
 }

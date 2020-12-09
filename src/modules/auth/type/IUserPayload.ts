@@ -6,3 +6,9 @@ export interface IUserPayloadParams {
   email: string;
   roles: UserRoles[];
 }
+
+export interface IUserCreateParams {
+  password: string;
+  email: string;
+  roles: UserRoles[];
+}

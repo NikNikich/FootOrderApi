@@ -32,7 +32,7 @@ export class UserEntity extends RowEntity<UserEntity> {
     () => UserRoleEntity,
     (role: UserRoleEntity) => role.user,
   )
-  roles!: UserRoleEntity[];
+  roles?: UserRoleEntity[];
 
   @OneToMany(
     () => CommentEntity,
