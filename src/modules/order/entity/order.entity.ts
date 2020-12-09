@@ -8,12 +8,12 @@ import {
   ManyToOne,
   RelationId,
 } from 'typeorm';
-import { RowEntity } from '@modules/database/entity/shared/row.entity';
-import { UserEntity } from '@modules/database/entity/user.entity';
-import { RestaurantEntity } from '@modules/database/entity/restaurant.entity';
+import { RowEntity } from '@modules/database/entity/row.entity';
+import { UserEntity } from '@modules/user/entity/user.entity';
+import { RestaurantEntity } from '@modules/restaurant/entity/restaurant.entity';
 import { validateOrReject } from 'class-validator';
-import { MenuItemEntity } from '@modules/database/entity/menu-item.entity';
-import { OrderStatuses } from '@modules/database/enum/order-status.enum';
+import { MenuItemEntity } from '@modules/menu-item/entity/menu-item.entity';
+import { OrderStatuses } from '@modules/order/enum/order-status.enum';
 
 @Entity('order')
 export class OrderEntity extends RowEntity<OrderEntity> {

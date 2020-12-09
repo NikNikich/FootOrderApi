@@ -1,4 +1,4 @@
-import { UserRoles } from '@modules/database/enum/role.enum';
+import { UserRoles } from '@modules/user-role/enum/role.enum';
 
 export interface IUserPayloadParams {
   id: number;

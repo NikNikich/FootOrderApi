@@ -7,9 +7,9 @@ import {
   RelationId,
 } from 'typeorm';
 import { validateOrReject } from 'class-validator';
-import { RestaurantEntity } from '@modules/database/entity/restaurant.entity';
-import { RowEntity } from '@modules/database/entity/shared/row.entity';
-import { UserEntity } from '@modules/database/entity/user.entity';
+import { RestaurantEntity } from '@modules/restaurant/entity/restaurant.entity';
+import { RowEntity } from '@modules/database/entity/row.entity';
+import { UserEntity } from '@modules/user/entity/user.entity';
 
 @Entity('comment')
 export class CommentEntity extends RowEntity<CommentEntity> {

@@ -6,9 +6,9 @@ import {
   ManyToOne,
   RelationId,
 } from 'typeorm';
-import { RowEntity } from '@modules/database/entity/shared/row.entity';
-import { UserRoles } from '@modules/database/enum/role.enum';
-import { UserEntity } from '@modules/database/entity/user.entity';
+import { RowEntity } from '@modules/database/entity/row.entity';
+import { UserRoles } from '@modules/user-role/enum/role.enum';
+import { UserEntity } from '@modules/user/entity/user.entity';
 import { validateOrReject } from 'class-validator';
 
 @Entity('user_role')
