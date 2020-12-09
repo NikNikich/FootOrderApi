@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ConstructableDto } from '@shared/dto';
 import { Expose, Transform } from 'class-transformer';
-import { UserRoles } from '@modules/database/enum/role.enum';
-import { UserEntity } from '@modules/database/entity/user.entity';
-import { UserRoleEntity } from '@modules/database/entity/user-role.entity';
+import { UserRoles } from '@modules/user-role/enum/role.enum';
+import { UserEntity } from '@modules/user/entity/user.entity';
+import { UserRoleEntity } from '@modules/user-role/entity/user-role.entity';
 
 export class UserDto extends ConstructableDto {
   @Expose()

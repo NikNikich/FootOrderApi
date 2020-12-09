@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from '@modules/database/repository/user.repository';
-import { UserRoleRepository } from '@modules/database/repository/user-role.repository';
-import { UserEntity } from '@modules/database/entity/user.entity';
+import { UserRepository } from '@modules/user/repository/user.repository';
+import { UserRoleRepository } from '@modules/user-role/repository/user-role.repository';
+import { UserEntity } from '@modules/user/entity/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { IUserCreateParams } from '@modules/auth/type/IUserPayload';
-import { UserRoleEntity } from '@modules/database/entity/user-role.entity';
+import { UserRoleEntity } from '@modules/user-role/entity/user-role.entity';
 
 @Injectable()
 export class UserService {

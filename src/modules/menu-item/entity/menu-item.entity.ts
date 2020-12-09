@@ -7,10 +7,10 @@ import {
   ManyToOne,
   RelationId,
 } from 'typeorm';
-import { RowEntity } from '@modules/database/entity/shared/row.entity';
+import { RowEntity } from '@modules/database/entity/row.entity';
 import { validateOrReject } from 'class-validator';
-import { RestaurantEntity } from '@modules/database/entity/restaurant.entity';
-import { OrderEntity } from '@modules/database/entity/order.entity';
+import { RestaurantEntity } from '@modules/restaurant/entity/restaurant.entity';
+import { OrderEntity } from '@modules/order/entity/order.entity';
 
 @Entity('menu-item')
 export class MenuItemEntity extends RowEntity<MenuItemEntity> {

@@ -17,7 +17,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { LoginResponseDto } from '@modules/auth/dto';
 import { IUserPayloadParams } from '@modules/auth/type/IUserPayload';
 import { CreateResponseDto } from '@modules/auth/dto/response/create-response.dto';
-import { UserRoles } from '@modules/database/enum/role.enum';
+import { UserRoles } from '@modules/user-role/enum/role.enum';
 import { mapToResponseDto } from '@shared/functions';
 import { LoginAndCreateParamsDto } from '@modules/auth/dto/request/login-and-creat-params.dto';
 

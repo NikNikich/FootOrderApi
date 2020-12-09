@@ -5,8 +5,8 @@ import {
   IUserPayloadParams,
 } from '@modules/auth/type/IUserPayload';
 import { JwtService } from '@nestjs/jwt';
-import { UserRoleEntity } from '@modules/database/entity/user-role.entity';
-import { UserRoles } from '@modules/database/enum/role.enum';
+import { UserRoleEntity } from '@modules/user-role/entity/user-role.entity';
+import { UserRoles } from '@modules/user-role/enum/role.enum';
 import { UserService } from '@modules/user/user.service';
 import { LoginResponseDto } from '@modules/auth/dto';
 import { CreateResponseDto } from '@modules/auth/dto/response/create-response.dto';

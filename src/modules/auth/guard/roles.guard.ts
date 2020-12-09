@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { intersection } from 'lodash';
-import { UserRoles } from '@modules/database/enum/role.enum';
+import { UserRoles } from '@modules/user-role/enum/role.enum';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

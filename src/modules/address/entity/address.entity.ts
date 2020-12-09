@@ -6,8 +6,8 @@ import {
   ManyToMany,
 } from 'typeorm';
 import { validateOrReject } from 'class-validator';
-import { UserEntity } from '@modules/database/entity/user.entity';
-import { RowEntity } from '@modules/database/entity/shared/row.entity';
+import { UserEntity } from '@modules/user/entity/user.entity';
+import { RowEntity } from '@modules/database/entity/row.entity';
 
 @Entity('address')
 export class AddressEntity extends RowEntity<AddressEntity> {

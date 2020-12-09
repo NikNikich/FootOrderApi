@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserRoles } from '@modules/database/enum/role.enum';
+import { UserRoles } from '@modules/user-role/enum/role.enum';
 import { Expose, Transform } from 'class-transformer';
-import { UserEntity } from '@modules/database/entity/user.entity';
+import { UserEntity } from '@modules/user/entity/user.entity';
 
 export class LoginResponseDto {
   @Expose()

@@ -4,7 +4,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { UserRoles } from '@modules/database/enum/role.enum';
+import { UserRoles } from '@modules/user-role/enum/role.enum';
 
 @Injectable()
 export class AdminGuard implements CanActivate {

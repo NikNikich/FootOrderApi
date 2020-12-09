@@ -8,11 +8,11 @@ import {
   ManyToMany,
   OneToMany,
 } from 'typeorm';
-import { UserRoleEntity } from '@modules/database/entity/user-role.entity';
-import { CommentEntity } from '@modules/database/entity/comment.entity';
-import { AddressEntity } from '@modules/database/entity/address.entity';
-import { OrderEntity } from '@modules/database/entity/order.entity';
-import { RowEntity } from '@modules/database/entity/shared/row.entity';
+import { UserRoleEntity } from '@modules/user-role/entity/user-role.entity';
+import { CommentEntity } from '@modules/comment/entity/comment.entity';
+import { AddressEntity } from '@modules/address/entity/address.entity';
+import { OrderEntity } from '@modules/order/entity/order.entity';
+import { RowEntity } from '@modules/database/entity/row.entity';
 
 @Entity('user')
 export class UserEntity extends RowEntity<UserEntity> {

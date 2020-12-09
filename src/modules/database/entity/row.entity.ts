@@ -4,7 +4,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Type } from 'class-transformer';
-import { ConstructableEntity } from '@modules/database/entity/shared/constructable.entity';
+import { ConstructableEntity } from '@modules/database/entity/constructable.entity';
 
 export class RowEntity<
   T = RowEntity<Record<string, unknown>>
