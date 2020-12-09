@@ -15,8 +15,6 @@ import { errors } from '@errors/errors';
 
 @Injectable()
 export class AuthService {
-  private readonly tokenCap = 'Bearer ';
-
   constructor(
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
@@ -75,9 +73,9 @@ export class AuthService {
       id: result.id,
       fullName: result.fullName,
       email: result.email,
-      roles: result.roles.map((role) => role.role) || [
-        UserRoles.USER,
-      ],
+      roles: result.roles.map(
+        (role: UserRoleEntity) => role.role,
+      ) || [UserRoles.USER],
     };
     const signIn = await this.signIn(signInData);
     return {

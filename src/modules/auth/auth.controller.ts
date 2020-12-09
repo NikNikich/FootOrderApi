@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Post,
-  Put,
   UseGuards,
   Request,
   Headers,
@@ -56,16 +55,6 @@ export class AuthController {
       roles: [UserRoles.USER],
     });
     return mapToResponseDto(LoginResponseDto, result);
-  }
-
-  @Put('change-password')
-  @ApiOperation({ summary: 'change user password' })
-  @ApiCreatedResponse({
-    type: String,
-    description: 'change password',
-  })
-  async restorePasswordMail(): Promise<string> {
-    return 'change_password';
   }
 
   @Post('refresh')
