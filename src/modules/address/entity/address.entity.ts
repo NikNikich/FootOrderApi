@@ -3,7 +3,8 @@ import {
   BeforeUpdate,
   Column,
   Entity,
-  ManyToMany,
+  ManyToOne,
+  RelationId,
 } from 'typeorm';
 import { validateOrReject } from 'class-validator';
 import { UserEntity } from '@modules/user/entity/user.entity';
@@ -14,8 +15,12 @@ export class AddressEntity extends RowEntity<AddressEntity> {
   @Column({ type: 'varchar' })
   text!: string;
 
-  @ManyToMany(() => UserEntity, (user: UserEntity) => user.addresses)
-  users?: UserEntity[];
+  @RelationId((addressUser: AddressEntity) => addressUser.user)
+  @Column({ type: 'integer' })
+  userId!: number;
+
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.orders)
+  user!: UserEntity;
 
   @BeforeInsert()
   @BeforeUpdate()

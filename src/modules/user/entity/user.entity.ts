@@ -43,19 +43,10 @@ export class UserEntity extends RowEntity<UserEntity> {
   @OneToMany(() => OrderEntity, (order: OrderEntity) => order.user)
   orders?: OrderEntity[];
 
-  @ManyToMany(
+  @OneToMany(
     () => AddressEntity,
-    (address: AddressEntity) => address.users,
+    (addres: AddressEntity) => addres.user,
   )
-  @JoinTable({
-    name: 'user_address',
-    joinColumn: {
-      name: 'userId',
-    },
-    inverseJoinColumn: {
-      name: 'addressId',
-    },
-  })
   addresses?: AddressEntity[];
 
   @BeforeInsert()
