@@ -5,10 +5,12 @@ import { UserEntity } from '@modules/user/entity/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { IUserCreateParams } from '@modules/auth/type/IUserPayload';
 import { UserRoleEntity } from '@modules/user-role/entity/user-role.entity';
+import { ConfigService } from '@modules/config/config.service';
 
 @Injectable()
 export class UserService {
   constructor(
+    private readonly configService: ConfigService,
     private readonly userRoleRepository: UserRoleRepository,
     private readonly userRepository: UserRepository,
   ) {}
@@ -40,6 +42,18 @@ export class UserService {
     );
     result.roles = await this.userRoleRepository.save(rolesRecords);
     return result;
+  }
+
+  setAvatarUrl(user: UserEntity): UserEntity {
+    const returnUser = user;
+    if (user?.avatar) {
+      const relativePath = user.avatar;
+      if (!relativePath.includes('http')) {
+        const storageUrl = this.configService.config.STORAGE_URL;
+        returnUser.avatar = `${storageUrl}${storageUrl}`;
+      }
+    }
+    return returnUser;
   }
 
   hashPassword(password: string): string {

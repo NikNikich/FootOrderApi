@@ -104,4 +104,11 @@ export class ConfigDto {
   @IsNotEmpty()
   @IsString()
   JWT_RESTORE_SECRET: string;
+
+  /**
+   * Url address image storage
+   */
+  @IsNotEmpty()
+  @IsString()
+  STORAGE_URL: string;
 }

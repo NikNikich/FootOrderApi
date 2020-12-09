@@ -5,7 +5,7 @@ import { UserRoles } from '@modules/user-role/enum/role.enum';
 import { UserEntity } from '@modules/user/entity/user.entity';
 import { UserRoleEntity } from '@modules/user-role/entity/user-role.entity';
 
-export class UserDto extends ConstructableDto {
+export class UserResponseDto extends ConstructableDto {
   @Expose()
   @ApiProperty({ description: 'Password' })
   password: string;

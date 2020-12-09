@@ -9,6 +9,9 @@ import {
 import { mapToResponseDto } from '@shared/functions';
 import { UserEntity } from '@modules/user/entity/user.entity';
 import { Auth } from '@shared/decorators/auth';
+import { ErrorDto } from '@shared/dto/error.dto';
+import { errors } from '@errors/errors';
+import { UserProfileResponseDto } from '@modules/user/dto/response/user-profile.response.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -19,7 +22,7 @@ export class UserController {
   @ApiOperation({ summary: 'Get self profile data' })
   @Auth()
   @ApiOkResponse({
-    type: UserResponseDto,
+    type: UserProfileResponseDto,
     description: 'User profile is downloaded',
   })
   @ApiNotFoundResponse({
@@ -28,13 +31,13 @@ export class UserController {
   })
   async getProfile(
     @Request() req: IRequest,
-  ): Promise<UserResponseDto> {
+  ): Promise<UserProfileResponseDto> {
     const user = await this.usersService.findOne(req.user.id);
     const subscriptionInfo = await this.subscriptionService.getAnnualSubscriptionInfo(
       user.id,
     );
-    return mapToResponseDto(UserResponseDto, {
-      ...this.setAvatarUrl(user),
+    return mapToResponseDto(UserProfileResponseDto, {
+      ...this.usersService.setAvatarUrl(user),
     });
   }
 
@@ -42,7 +45,7 @@ export class UserController {
   @ApiOperation({ summary: 'Update self profile data' })
   @Auth()
   @ApiOkResponse({
-    type: UserResponseDto,
+    type: UserProfileResponseDto,
     description: 'User data is updated',
   })
   @ApiNotFoundResponse({
@@ -52,25 +55,10 @@ export class UserController {
   async update(
     @Request() req: IRequest,
     @Body() data: UpdateUserDto,
-  ): Promise<UserResponseDto> {
+  ): Promise<UserProfileResponseDto> {
     const user = await this.usersService.update(req.user.id, data);
-    const subscriptionInfo = await this.subscriptionService.getAnnualSubscriptionInfo(
-      user.id,
-    );
-    return mapToResponseDto(UserResponseDto, {
-      ...this.setAvatarUrl(user),
-      isYearlyMember: subscriptionInfo.status === PaidStatus.PAID,
-      currentPeriodEnd: subscriptionInfo.endDate || null,
-      isCanceledSubscription: subscriptionInfo.canceled || false,
+    return mapToResponseDto(UserProfileResponseDto, {
+      ...this.usersService.setAvatarUrl(user),
     });
-  }
-
-  private setAvatarUrl(user: UserEntity): UserEntity {
-    if (user?.avatar) {
-      user.avatar = this.mediaService.getMediaThumbnailUrl(
-        user.avatar,
-      );
-    }
-    return user;
   }
 }

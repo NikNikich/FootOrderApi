@@ -9,6 +9,7 @@ import {
 import {
   ApiBody,
   ApiCreatedResponse,
+  ApiNotFoundResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
@@ -20,6 +21,8 @@ import { CreateResponseDto } from '@modules/auth/dto/response/create-response.dt
 import { UserRoles } from '@modules/user-role/enum/role.enum';
 import { mapToResponseDto } from '@shared/functions';
 import { LoginAndCreateParamsDto } from '@modules/auth/dto/request/login-and-creat-params.dto';
+import { ErrorDto } from '@shared/dto/error.dto';
+import { errors } from '@errors/errors';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -34,6 +37,10 @@ export class AuthController {
     type: LoginResponseDto,
     description: 'Login is successful',
   })
+  @ApiNotFoundResponse({
+    type: ErrorDto,
+    description: errors.AccessDenied.title,
+  })
   async signIn(
     @Request() req: { user: IUserPayloadParams },
   ): Promise<LoginResponseDto> {
@@ -46,6 +53,10 @@ export class AuthController {
   @ApiCreatedResponse({
     type: CreateResponseDto,
     description: 'Sign Up is successful',
+  })
+  @ApiNotFoundResponse({
+    type: ErrorDto,
+    description: errors.EmailAlreadyUsed.title,
   })
   async create(
     @Body() data: LoginAndCreateParamsDto,
@@ -62,6 +73,10 @@ export class AuthController {
   @ApiCreatedResponse({
     type: LoginResponseDto,
     description: 'Return new pair access and refresh tokens',
+  })
+  @ApiNotFoundResponse({
+    type: ErrorDto,
+    description: errors.AccessDenied.title,
   })
   refreshToken(
     @Headers('refreshtoken') token: string,
