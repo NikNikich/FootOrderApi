@@ -21,7 +21,7 @@ export class UserRoleEntity extends RowEntity<UserRoleEntity> {
   role!: UserRoles;
 
   @ManyToOne(() => UserEntity, (user: UserEntity) => user.roles)
-  user!: UserEntity;
+  user?: UserEntity;
 
   @BeforeInsert()
   @BeforeUpdate()
