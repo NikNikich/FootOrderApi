@@ -6,11 +6,11 @@ export const badRequestVocabulary: IBadRequestErrors = {
   UserAlreadyExist: new APIError(
     HttpStatuses.BAD,
     'User is already exist',
-    1,
+    101,
   ),
   EmailAlreadyUsed: new APIError(
     HttpStatuses.BAD,
     'This email address is already being used',
-    2,
+    102,
   ),
 };

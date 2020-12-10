@@ -7,11 +7,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { mapToResponseDto } from '@shared/functions';
-import { UserEntity } from '@modules/user/entity/user.entity';
 import { Auth } from '@shared/decorators/auth';
 import { ErrorDto } from '@shared/dto/error.dto';
 import { errors } from '@errors/errors';
 import { UserProfileResponseDto } from '@modules/user/dto/response/user-profile.response.dto';
+import { IRequest } from '@shared/interfaces/IRequest';
+import { UserProfileRequestDto } from '@modules/user/dto/request/user-profile.request.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -33,9 +34,6 @@ export class UserController {
     @Request() req: IRequest,
   ): Promise<UserProfileResponseDto> {
     const user = await this.usersService.findOne(req.user.id);
-    const subscriptionInfo = await this.subscriptionService.getAnnualSubscriptionInfo(
-      user.id,
-    );
     return mapToResponseDto(UserProfileResponseDto, {
       ...this.usersService.setAvatarUrl(user),
     });
@@ -54,7 +52,7 @@ export class UserController {
   })
   async update(
     @Request() req: IRequest,
-    @Body() data: UpdateUserDto,
+    @Body() data: UserProfileRequestDto,
   ): Promise<UserProfileResponseDto> {
     const user = await this.usersService.update(req.user.id, data);
     return mapToResponseDto(UserProfileResponseDto, {

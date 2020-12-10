@@ -19,6 +19,9 @@ export class AddressEntity extends RowEntity<AddressEntity> {
   @Column({ type: 'integer' })
   userId!: number;
 
+  @Column({ type: 'boolean', default: false })
+  isFavorite?: boolean;
+
   @ManyToOne(() => UserEntity, (user: UserEntity) => user.orders)
   user!: UserEntity;
 

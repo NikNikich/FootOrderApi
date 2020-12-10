@@ -8,4 +8,10 @@ export const notFoundRequestVocabulary: INotFoundRequestErrors = {
     'User not found',
     1,
   ),
+
+  AddressNotFound: new APIError(
+    HttpStatuses.NOT_FOUND,
+    'Address not found',
+    2,
+  ),
 };

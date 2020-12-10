@@ -20,7 +20,7 @@ import { IUserPayloadParams } from '@modules/auth/type/IUserPayload';
 import { CreateResponseDto } from '@modules/auth/dto/response/create-response.dto';
 import { UserRoles } from '@modules/user-role/enum/role.enum';
 import { mapToResponseDto } from '@shared/functions';
-import { LoginAndCreateParamsDto } from '@modules/auth/dto/request/login-and-creat-params.dto';
+import { LoginParamsRequestDto } from '@modules/auth/dto/request/login-params.request.dto';
 import { ErrorDto } from '@shared/dto/error.dto';
 import { errors } from '@errors/errors';
 
@@ -29,7 +29,7 @@ import { errors } from '@errors/errors';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiBody({ type: LoginAndCreateParamsDto })
+  @ApiBody({ type: LoginParamsRequestDto })
   @UseGuards(AuthGuard('local'))
   @Post('sign-in')
   @ApiOperation({ summary: 'Sign in' })
@@ -59,7 +59,7 @@ export class AuthController {
     description: errors.EmailAlreadyUsed.title,
   })
   async create(
-    @Body() data: LoginAndCreateParamsDto,
+    @Body() data: LoginParamsRequestDto,
   ): Promise<LoginResponseDto> {
     const result = await this.authService.signUp({
       ...data,
