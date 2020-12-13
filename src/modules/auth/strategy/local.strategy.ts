@@ -1,5 +1,5 @@
 import { errors } from '@errors/errors';
-import { IUserPayloadParams } from '@modules/auth/type/IUserPayload';
+import { IUserPayloadParams } from '@modules/auth/interface/IUserPayload';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { Strategy } from 'passport-local';

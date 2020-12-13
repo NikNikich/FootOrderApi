@@ -6,4 +6,5 @@ export interface IBadRequestErrors {
   FileUploadingError: APIError;
   NotSaveUserError: APIError;
   NotDownloadAvatarError: APIError;
+  NotIdentifiedAddress: APIError;
 }

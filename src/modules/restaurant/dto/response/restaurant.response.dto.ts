@@ -7,7 +7,7 @@ export class RestaurantResponseDto {
   name!: string;
 
   @Expose()
-  @ApiProperty({ description: 'user-address restaurant' })
+  @ApiProperty({ description: 'address restaurant' })
   address?: string;
 
   @Expose()

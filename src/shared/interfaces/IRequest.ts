@@ -1,4 +1,4 @@
-import { IUserPayloadParams as IUserPayload } from '@modules/auth/type/IUserPayload';
+import { IUserPayloadParams as IUserPayload } from '@modules/auth/interface/IUserPayload';
 import { Request } from 'express';
 
 export interface IRequest extends Request {

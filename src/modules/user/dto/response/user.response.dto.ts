@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ConstructableDto } from '@shared/dto';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
+import { AddressResponseDto } from '@modules/address/dto/response/address.response.dto';
+import { AddressEntity } from '@modules/address/entity/address.entity';
 
 export class UserResponseDto extends ConstructableDto {
   @Expose()
@@ -8,10 +10,21 @@ export class UserResponseDto extends ConstructableDto {
   fullName?: string;
 
   @Expose()
-  @ApiProperty({ description: 'Email user-address' })
+  @ApiProperty({ description: 'Email address' })
   email: string;
 
   @Expose()
   @ApiProperty({ description: 'Avatar user' })
   avatar?: string;
+
+  @Expose()
+  @Type(() => AddressResponseDto)
+  @ApiProperty({
+    type: AddressResponseDto,
+    description: 'user addresses',
+    isArray: true,
+    minLength: 1,
+    maxLength: 10_000,
+  })
+  addresses?: AddressEntity[];
 }
