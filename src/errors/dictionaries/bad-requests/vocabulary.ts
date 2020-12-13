@@ -13,4 +13,19 @@ export const badRequestVocabulary: IBadRequestErrors = {
     'This email address is already being used',
     102,
   ),
+  FileUploadingError: new APIError(
+    HttpStatuses.BAD,
+    'File not uploaded successfully.',
+    103,
+  ),
+  NotSaveUserError: new APIError(
+    HttpStatuses.BAD,
+    'User not save successfully.',
+    104,
+  ),
+  NotDownloadAvatarError: new APIError(
+    HttpStatuses.BAD,
+    'Avatar not download successfully.',
+    105,
+  ),
 };

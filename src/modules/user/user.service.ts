@@ -7,6 +7,8 @@ import { ConfigService } from '@modules/config/config.service';
 import { UserProfileRequestDto } from '@modules/user/dto/request/user-profile.request.dto';
 import { AddressService } from '@modules/address/address.service';
 import { UserRoleService } from '@modules/user-role/user-role.service';
+import { errors } from '@errors/errors';
+import * as fs from 'fs';
 
 @Injectable()
 export class UserService {
@@ -23,6 +25,14 @@ export class UserService {
 
   async findOne(userId: number): Promise<UserEntity> {
     return this.userRepository.findByIdOrReject(userId);
+  }
+
+  async save(user: UserEntity): Promise<void> {
+    try {
+      await this.userRepository.save(user);
+    } catch (e) {
+      throw errors.NotSaveUserError;
+    }
   }
 
   validatePassword(password: string, hash: string): boolean {
@@ -47,7 +57,7 @@ export class UserService {
     id: number,
     params: UserProfileRequestDto,
   ): Promise<UserEntity> {
-    const user = await this.userRepository.findOne(id);
+    const user = await this.findOne(id);
     const { fullName, idFavoriteAddresses } = params;
     if (idFavoriteAddresses && idFavoriteAddresses.length > 0) {
       idFavoriteAddresses.map(
@@ -63,16 +73,35 @@ export class UserService {
     return user;
   }
 
-  setAvatarUrl(user: UserEntity): UserEntity {
-    const returnUser = user;
-    if (user?.avatar) {
-      const relativePath = user.avatar;
-      if (!relativePath.includes('http')) {
-        const storageUrl = this.configService.config.STORAGE_URL;
-        returnUser.avatar = `${storageUrl}${storageUrl}`;
-      }
+  async updateAvatar(
+    userId: number,
+    file: Express.Multer.File,
+  ): Promise<UserEntity> {
+    const user = await this.findOne(userId);
+    const pathFile = file?.filename;
+    if (!pathFile) {
+      throw errors.FileUploadingError;
     }
-    return returnUser;
+    user.avatar = pathFile;
+    await this.userRepository.save(user);
+    return user;
+  }
+
+  async downloadAvatar(userId: number): Promise<Buffer> {
+    const user = await this.findOne(userId);
+    if (!user.avatar) {
+      throw errors.NotDownloadAvatarError;
+    }
+    const filePath = `${this.configService.config.UPLOAD_PATH}/${user.avatar}`;
+    return new Promise<Buffer>((resolve) => {
+      fs.readFile(filePath, {}, (err, data) => {
+        if (err) {
+          throw errors.NotDownloadAvatarError;
+        } else {
+          resolve(data);
+        }
+      });
+    });
   }
 
   hashPassword(password: string): string {

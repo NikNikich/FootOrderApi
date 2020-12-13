@@ -4,8 +4,6 @@ import {
   BeforeUpdate,
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
   OneToMany,
 } from 'typeorm';
 import { UserRoleEntity } from '@modules/user-role/entity/user-role.entity';
