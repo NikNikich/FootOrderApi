@@ -3,6 +3,7 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  ManyToMany,
   OneToMany,
 } from 'typeorm';
 import { RowEntity } from '@modules/database/entity/row.entity';
@@ -10,6 +11,7 @@ import { validateOrReject } from 'class-validator';
 import { CommentEntity } from '@modules/comment/entity/comment.entity';
 import { MenuItemEntity } from '@modules/menu-item/entity/menu-item.entity';
 import { OrderEntity } from '@modules/order/entity/order.entity';
+import { UserEntity } from '@modules/user/entity/user.entity';
 
 @Entity('restaurant')
 export class RestaurantEntity extends RowEntity<RestaurantEntity> {
@@ -42,6 +44,12 @@ export class RestaurantEntity extends RowEntity<RestaurantEntity> {
     (menuItem: MenuItemEntity) => menuItem.restaurant,
   )
   menuItems?: MenuItemEntity[];
+
+  @ManyToMany(
+    () => UserEntity,
+    (user: UserEntity) => user.selectedRestaurants,
+  )
+  selectedUser?: UserEntity[];
 
   @BeforeInsert()
   @BeforeUpdate()

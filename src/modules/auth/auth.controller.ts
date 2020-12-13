@@ -9,6 +9,7 @@ import {
 import {
   ApiBody,
   ApiCreatedResponse,
+  ApiNotFoundResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
@@ -16,23 +17,28 @@ import { AuthService } from '@modules/auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginResponseDto } from '@modules/auth/dto';
 import { IUserPayloadParams } from '@modules/auth/type/IUserPayload';
-import { CreateResponseDto } from '@modules/auth/dto/response/create-response.dto';
 import { UserRoles } from '@modules/user-role/enum/role.enum';
 import { mapToResponseDto } from '@shared/functions';
-import { LoginAndCreateParamsDto } from '@modules/auth/dto/request/login-and-creat-params.dto';
+import { LoginParamsRequestDto } from '@modules/auth/dto/request/login-params.request.dto';
+import { ErrorDto } from '@shared/dto/error.dto';
+import { errors } from '@errors/errors';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiBody({ type: LoginAndCreateParamsDto })
+  @ApiBody({ type: LoginParamsRequestDto })
   @UseGuards(AuthGuard('local'))
   @Post('sign-in')
   @ApiOperation({ summary: 'Sign in' })
   @ApiCreatedResponse({
     type: LoginResponseDto,
     description: 'Login is successful',
+  })
+  @ApiNotFoundResponse({
+    type: ErrorDto,
+    description: errors.AccessDenied.title,
   })
   async signIn(
     @Request() req: { user: IUserPayloadParams },
@@ -44,17 +50,25 @@ export class AuthController {
   @Post('sign-up')
   @ApiOperation({ summary: 'Sign up' })
   @ApiCreatedResponse({
-    type: CreateResponseDto,
+    type: LoginResponseDto,
     description: 'Sign Up is successful',
   })
+  @ApiNotFoundResponse({
+    type: ErrorDto,
+    description: errors.EmailAlreadyUsed.title,
+  })
   async create(
-    @Body() data: LoginAndCreateParamsDto,
+    @Body() data: LoginParamsRequestDto,
   ): Promise<LoginResponseDto> {
     const result = await this.authService.signUp({
       ...data,
       roles: [UserRoles.USER],
     });
-    return mapToResponseDto(LoginResponseDto, result);
+    return mapToResponseDto(LoginResponseDto, {
+      ...result,
+      favoriteAddresses: [],
+      selectedRestaurants: [],
+    });
   }
 
   @Post('refresh')
@@ -63,9 +77,14 @@ export class AuthController {
     type: LoginResponseDto,
     description: 'Return new pair access and refresh tokens',
   })
-  refreshToken(
+  @ApiNotFoundResponse({
+    type: ErrorDto,
+    description: errors.AccessDenied.title,
+  })
+  async refreshToken(
     @Headers('refreshtoken') token: string,
   ): Promise<LoginResponseDto> {
-    return this.authService.refresh(token);
+    const result = await this.authService.refresh(token);
+    return mapToResponseDto(LoginResponseDto, result);
   }
 }

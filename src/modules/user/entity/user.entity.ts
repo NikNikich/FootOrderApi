@@ -10,9 +10,10 @@ import {
 } from 'typeorm';
 import { UserRoleEntity } from '@modules/user-role/entity/user-role.entity';
 import { CommentEntity } from '@modules/comment/entity/comment.entity';
-import { AddressEntity } from '@modules/address/entity/address.entity';
+import { UserAddressEntity } from '@modules/user-address/entity/user-address.entity';
 import { OrderEntity } from '@modules/order/entity/order.entity';
 import { RowEntity } from '@modules/database/entity/row.entity';
+import { RestaurantEntity } from '@modules/restaurant/entity/restaurant.entity';
 
 @Entity('user')
 export class UserEntity extends RowEntity<UserEntity> {
@@ -43,20 +44,26 @@ export class UserEntity extends RowEntity<UserEntity> {
   @OneToMany(() => OrderEntity, (order: OrderEntity) => order.user)
   orders?: OrderEntity[];
 
+  @OneToMany(
+    () => UserAddressEntity,
+    (address: UserAddressEntity) => address.user,
+  )
+  addresses?: UserAddressEntity[];
+
   @ManyToMany(
-    () => AddressEntity,
-    (address: AddressEntity) => address.users,
+    () => RestaurantEntity,
+    (restaurant: RestaurantEntity) => restaurant.selectedUser,
   )
   @JoinTable({
-    name: 'user_address',
+    name: 'selected_restaurant',
     joinColumn: {
       name: 'userId',
     },
     inverseJoinColumn: {
-      name: 'addressId',
+      name: 'restaurantId',
     },
   })
-  addresses?: AddressEntity[];
+  selectedRestaurants?: RestaurantEntity[];
 
   @BeforeInsert()
   @BeforeUpdate()

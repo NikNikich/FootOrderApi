@@ -1,13 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserRoles } from '@modules/user-role/enum/role.enum';
-import { Expose, Transform } from 'class-transformer';
-import { UserEntity } from '@modules/user/entity/user.entity';
+import { Expose } from 'class-transformer';
+import { UserProfileResponseDto } from '@modules/user/dto';
 
-export class LoginResponseDto {
-  @Expose()
-  @ApiProperty({ description: 'Идентификатор' })
-  id: number;
-
+export class LoginResponseDto extends UserProfileResponseDto {
   @Expose()
   @ApiProperty({ description: 'Access token' })
   accessToken: string;
@@ -15,20 +10,4 @@ export class LoginResponseDto {
   @Expose()
   @ApiProperty({ description: 'Refresh token' })
   refreshToken: string;
-
-  @Expose()
-  @ApiProperty({ description: 'Email' })
-  email: string;
-
-  @Expose()
-  @ApiProperty({
-    enum: UserRoles,
-    isArray: true,
-    description: 'Role in system',
-  })
-  @Transform(
-    (value, data: UserEntity) =>
-      data && data.roles && data.roles.map((item) => item.role),
-  )
-  roles?: UserRoles[];
 }

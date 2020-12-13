@@ -1,16 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '@modules/user/repository/user.repository';
-import { UserRoleRepository } from '@modules/user-role/repository/user-role.repository';
 import { UserEntity } from '@modules/user/entity/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { IUserCreateParams } from '@modules/auth/type/IUserPayload';
-import { UserRoleEntity } from '@modules/user-role/entity/user-role.entity';
+import { ConfigService } from '@modules/config/config.service';
+import { UserProfileRequestDto } from '@modules/user/dto/request/user-profile.request.dto';
+import { UserAddressService } from '@modules/user-address/user-address.service';
+import { UserRoleService } from '@modules/user-role/user-role.service';
+import { errors } from '@errors/errors';
+import * as fs from 'fs';
+import { UserProfileResponseDto } from '@modules/user/dto';
 
 @Injectable()
 export class UserService {
   constructor(
-    private readonly userRoleRepository: UserRoleRepository,
+    private readonly configService: ConfigService,
+    private readonly userRoleService: UserRoleService,
     private readonly userRepository: UserRepository,
+    private readonly addressService: UserAddressService,
   ) {}
 
   async findByEmail(email: string): Promise<UserEntity> {
@@ -19,6 +26,14 @@ export class UserService {
 
   async findOne(userId: number): Promise<UserEntity> {
     return this.userRepository.findByIdOrReject(userId);
+  }
+
+  async save(user: UserEntity): Promise<UserEntity> {
+    try {
+      return this.userRepository.save(user);
+    } catch (e) {
+      throw errors.NotSaveUserError;
+    }
   }
 
   validatePassword(password: string, hash: string): boolean {
@@ -33,13 +48,73 @@ export class UserService {
       email,
       password: hash,
     });
-    const result = await this.userRepository.save(userRecord);
+    const result = await this.save(userRecord);
     const userId = result.id;
-    const rolesRecords = (roles || []).map(
-      (role) => new UserRoleEntity({ role, userId }),
-    );
-    result.roles = await this.userRoleRepository.save(rolesRecords);
+    result.roles = await this.userRoleService.create(userId, roles);
     return result;
+  }
+
+  async update(
+    id: number,
+    params: UserProfileRequestDto,
+  ): Promise<UserEntity> {
+    const user = await this.findOne(id);
+    const { fullName, idFavoriteAddresses } = params;
+    if (idFavoriteAddresses && idFavoriteAddresses.length > 0) {
+      idFavoriteAddresses.map(
+        async (idAddress: number): Promise<void> => {
+          await this.addressService.setFavorite(idAddress);
+        },
+      );
+    }
+    if (fullName) {
+      user.fullName = fullName;
+      return this.save(user);
+    }
+    return user;
+  }
+
+  async updateAvatar(
+    userId: number,
+    file: Express.Multer.File,
+  ): Promise<UserEntity> {
+    const user = await this.findOne(userId);
+    const pathFile = file?.filename;
+    if (!pathFile) {
+      throw errors.FileUploadingError;
+    }
+    user.avatar = pathFile;
+    return this.save(user);
+  }
+
+  getProfile(user: UserEntity): UserProfileResponseDto {
+    let favoriteAddresses = [];
+    if (user?.addresses?.length > 0) {
+      favoriteAddresses = user.addresses.filter(
+        (address) => address.isFavorite,
+      );
+    }
+    return {
+      ...user,
+      favoriteAddresses,
+    };
+  }
+
+  async downloadAvatar(userId: number): Promise<Buffer> {
+    const user = await this.findOne(userId);
+    if (!user.avatar) {
+      throw errors.NotDownloadAvatarError;
+    }
+    const filePath = `${this.configService.config.UPLOAD_PATH}/${user.avatar}`;
+    return new Promise<Buffer>((resolve) => {
+      fs.readFile(filePath, {}, (err, data) => {
+        if (err) {
+          throw errors.NotDownloadAvatarError;
+        } else {
+          resolve(data);
+        }
+      });
+    });
   }
 
   hashPassword(password: string): string {

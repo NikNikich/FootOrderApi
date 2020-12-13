@@ -6,11 +6,26 @@ export const badRequestVocabulary: IBadRequestErrors = {
   UserAlreadyExist: new APIError(
     HttpStatuses.BAD,
     'User is already exist',
-    1,
+    101,
   ),
   EmailAlreadyUsed: new APIError(
     HttpStatuses.BAD,
-    'This email address is already being used',
-    2,
+    'This email user-address is already being used',
+    102,
+  ),
+  FileUploadingError: new APIError(
+    HttpStatuses.BAD,
+    'File not uploaded successfully.',
+    103,
+  ),
+  NotSaveUserError: new APIError(
+    HttpStatuses.BAD,
+    'User not save successfully.',
+    104,
+  ),
+  NotDownloadAvatarError: new APIError(
+    HttpStatuses.BAD,
+    'Avatar not download successfully.',
+    105,
   ),
 };

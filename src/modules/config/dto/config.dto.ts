@@ -104,4 +104,11 @@ export class ConfigDto {
   @IsNotEmpty()
   @IsString()
   JWT_RESTORE_SECRET: string;
+
+  /**
+   * upload files path
+   */
+  @IsOptional()
+  @IsString()
+  UPLOAD_PATH = './upload/file';
 }

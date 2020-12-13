@@ -56,14 +56,13 @@ export class AuthService {
     const { id, email, roles } = user;
     const payload = { id, email, roles };
     const { REFRESH_TOKEN_LIFE_TIME } = this.configService.config;
+    const userFind = await this.userService.findOne(id);
     return {
+      ...this.userService.getProfile(userFind),
       refreshToken: this.jwtService.sign(payload, {
         expiresIn: REFRESH_TOKEN_LIFE_TIME,
       }),
       accessToken: this.jwtService.sign(payload),
-      id,
-      email,
-      roles,
     };
   }
 
