@@ -7,9 +7,9 @@ import { RestaurantEntity } from '@modules/restaurant/entity/restaurant.entity';
 export class UserProfileResponseDto extends UserResponseDto {
   @Expose()
   @ApiProperty({ description: 'selected restaurants' })
-  restaurants?: RestaurantEntity[];
+  selectedRestaurants?: RestaurantEntity[];
 
   @Expose()
   @ApiProperty({ description: 'user addresses' })
-  addresses?: AddressEntity[];
+  favoriteAddresses?: AddressEntity[];
 }

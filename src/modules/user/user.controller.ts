@@ -95,6 +95,9 @@ export class UserController {
     const user = await this.usersService.findOne(req.user.id);
     return mapToResponseDto(UserProfileResponseDto, {
       ...user,
+      favoriteAddresses: this.usersService.getFavoriteAddresses(
+        user.addresses,
+      ),
     });
   }
 
@@ -116,6 +119,9 @@ export class UserController {
     const user = await this.usersService.update(req.user.id, data);
     return mapToResponseDto(UserProfileResponseDto, {
       ...user,
+      favoriteAddresses: this.usersService.getFavoriteAddresses(
+        user.addresses,
+      ),
     });
   }
 }

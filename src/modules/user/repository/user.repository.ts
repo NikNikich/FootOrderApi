@@ -19,7 +19,7 @@ export class UserRepository extends BaseRepository<UserEntity> {
   async findByIdOrReject(id: number): Promise<UserEntity> {
     const user = await this.findOne({
       where: { id },
-      relations: ['roles'],
+      relations: ['roles', 'selectedRestaurants', 'addresses'],
     });
     if (!user) {
       throw errors.UserNotFound;

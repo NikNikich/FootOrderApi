@@ -9,6 +9,7 @@ import { AddressService } from '@modules/address/address.service';
 import { UserRoleService } from '@modules/user-role/user-role.service';
 import { errors } from '@errors/errors';
 import * as fs from 'fs';
+import { AddressEntity } from '@modules/address/entity/address.entity';
 
 @Injectable()
 export class UserService {
@@ -27,9 +28,9 @@ export class UserService {
     return this.userRepository.findByIdOrReject(userId);
   }
 
-  async save(user: UserEntity): Promise<void> {
+  async save(user: UserEntity): Promise<UserEntity> {
     try {
-      await this.userRepository.save(user);
+      return this.userRepository.save(user);
     } catch (e) {
       throw errors.NotSaveUserError;
     }
@@ -47,7 +48,7 @@ export class UserService {
       email,
       password: hash,
     });
-    const result = await this.userRepository.save(userRecord);
+    const result = await this.save(userRecord);
     const userId = result.id;
     result.roles = await this.userRoleService.create(userId, roles);
     return result;
@@ -68,7 +69,7 @@ export class UserService {
     }
     if (fullName) {
       user.fullName = fullName;
-      return this.userRepository.save(user);
+      return this.save(user);
     }
     return user;
   }
@@ -83,8 +84,14 @@ export class UserService {
       throw errors.FileUploadingError;
     }
     user.avatar = pathFile;
-    await this.userRepository.save(user);
-    return user;
+    return this.save(user);
+  }
+
+  getFavoriteAddresses(addresses: AddressEntity[]): AddressEntity[] {
+    if (addresses?.length > 0) {
+      return addresses.filter((address) => address.isFavorite);
+    }
+    return addresses;
   }
 
   async downloadAvatar(userId: number): Promise<Buffer> {
