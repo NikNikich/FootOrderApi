@@ -10,12 +10,12 @@ import { validateOrReject } from 'class-validator';
 import { UserEntity } from '@modules/user/entity/user.entity';
 import { RowEntity } from '@modules/database/entity/row.entity';
 
-@Entity('address')
-export class AddressEntity extends RowEntity<AddressEntity> {
+@Entity('user_address')
+export class UserAddressEntity extends RowEntity<UserAddressEntity> {
   @Column({ type: 'varchar' })
-  text!: string;
+  address!: string;
 
-  @RelationId((addressUser: AddressEntity) => addressUser.user)
+  @RelationId((addressUser: UserAddressEntity) => addressUser.user)
   @Column({ type: 'integer' })
   userId!: number;
 

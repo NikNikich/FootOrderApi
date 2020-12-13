@@ -93,12 +93,10 @@ export class UserController {
     @Request() req: IRequest,
   ): Promise<UserProfileResponseDto> {
     const user = await this.usersService.findOne(req.user.id);
-    return mapToResponseDto(UserProfileResponseDto, {
-      ...user,
-      favoriteAddresses: this.usersService.getFavoriteAddresses(
-        user.addresses,
-      ),
-    });
+    return mapToResponseDto(
+      UserProfileResponseDto,
+      this.usersService.getProfile(user),
+    );
   }
 
   @Put('profile')
@@ -117,11 +115,9 @@ export class UserController {
     @Body() data: UserProfileRequestDto,
   ): Promise<UserProfileResponseDto> {
     const user = await this.usersService.update(req.user.id, data);
-    return mapToResponseDto(UserProfileResponseDto, {
-      ...user,
-      favoriteAddresses: this.usersService.getFavoriteAddresses(
-        user.addresses,
-      ),
-    });
+    return mapToResponseDto(
+      UserProfileResponseDto,
+      this.usersService.getProfile(user),
+    );
   }
 }

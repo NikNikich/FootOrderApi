@@ -10,7 +10,7 @@ export const badRequestVocabulary: IBadRequestErrors = {
   ),
   EmailAlreadyUsed: new APIError(
     HttpStatuses.BAD,
-    'This email address is already being used',
+    'This email user-address is already being used',
     102,
   ),
   FileUploadingError: new APIError(

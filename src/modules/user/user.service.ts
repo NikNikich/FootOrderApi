@@ -5,11 +5,11 @@ import * as bcrypt from 'bcryptjs';
 import { IUserCreateParams } from '@modules/auth/type/IUserPayload';
 import { ConfigService } from '@modules/config/config.service';
 import { UserProfileRequestDto } from '@modules/user/dto/request/user-profile.request.dto';
-import { AddressService } from '@modules/address/address.service';
+import { UserAddressService } from '@modules/user-address/user-address.service';
 import { UserRoleService } from '@modules/user-role/user-role.service';
 import { errors } from '@errors/errors';
 import * as fs from 'fs';
-import { AddressEntity } from '@modules/address/entity/address.entity';
+import { UserProfileResponseDto } from '@modules/user/dto';
 
 @Injectable()
 export class UserService {
@@ -17,7 +17,7 @@ export class UserService {
     private readonly configService: ConfigService,
     private readonly userRoleService: UserRoleService,
     private readonly userRepository: UserRepository,
-    private readonly addressService: AddressService,
+    private readonly addressService: UserAddressService,
   ) {}
 
   async findByEmail(email: string): Promise<UserEntity> {
@@ -87,11 +87,17 @@ export class UserService {
     return this.save(user);
   }
 
-  getFavoriteAddresses(addresses: AddressEntity[]): AddressEntity[] {
-    if (addresses?.length > 0) {
-      return addresses.filter((address) => address.isFavorite);
+  getProfile(user: UserEntity): UserProfileResponseDto {
+    let favoriteAddresses = [];
+    if (user?.addresses?.length > 0) {
+      favoriteAddresses = user.addresses.filter(
+        (address) => address.isFavorite,
+      );
     }
-    return addresses;
+    return {
+      ...user,
+      favoriteAddresses,
+    };
   }
 
   async downloadAvatar(userId: number): Promise<Buffer> {

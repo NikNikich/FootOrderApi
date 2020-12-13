@@ -17,7 +17,6 @@ import { AuthService } from '@modules/auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginResponseDto } from '@modules/auth/dto';
 import { IUserPayloadParams } from '@modules/auth/type/IUserPayload';
-import { CreateResponseDto } from '@modules/auth/dto/response/create-response.dto';
 import { UserRoles } from '@modules/user-role/enum/role.enum';
 import { mapToResponseDto } from '@shared/functions';
 import { LoginParamsRequestDto } from '@modules/auth/dto/request/login-params.request.dto';
@@ -51,7 +50,7 @@ export class AuthController {
   @Post('sign-up')
   @ApiOperation({ summary: 'Sign up' })
   @ApiCreatedResponse({
-    type: CreateResponseDto,
+    type: LoginResponseDto,
     description: 'Sign Up is successful',
   })
   @ApiNotFoundResponse({
@@ -65,7 +64,11 @@ export class AuthController {
       ...data,
       roles: [UserRoles.USER],
     });
-    return mapToResponseDto(LoginResponseDto, result);
+    return mapToResponseDto(LoginResponseDto, {
+      ...result,
+      favoriteAddresses: [],
+      selectedRestaurants: [],
+    });
   }
 
   @Post('refresh')
@@ -78,9 +81,10 @@ export class AuthController {
     type: ErrorDto,
     description: errors.AccessDenied.title,
   })
-  refreshToken(
+  async refreshToken(
     @Headers('refreshtoken') token: string,
   ): Promise<LoginResponseDto> {
-    return this.authService.refresh(token);
+    const result = await this.authService.refresh(token);
+    return mapToResponseDto(LoginResponseDto, result);
   }
 }

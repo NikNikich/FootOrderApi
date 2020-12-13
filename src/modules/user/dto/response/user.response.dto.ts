@@ -8,7 +8,7 @@ export class UserResponseDto extends ConstructableDto {
   fullName?: string;
 
   @Expose()
-  @ApiProperty({ description: 'Email address' })
+  @ApiProperty({ description: 'Email user-address' })
   email: string;
 
   @Expose()

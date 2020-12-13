@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { UserRoleEntity } from '@modules/user-role/entity/user-role.entity';
 import { CommentEntity } from '@modules/comment/entity/comment.entity';
-import { AddressEntity } from '@modules/address/entity/address.entity';
+import { UserAddressEntity } from '@modules/user-address/entity/user-address.entity';
 import { OrderEntity } from '@modules/order/entity/order.entity';
 import { RowEntity } from '@modules/database/entity/row.entity';
 import { RestaurantEntity } from '@modules/restaurant/entity/restaurant.entity';
@@ -45,10 +45,10 @@ export class UserEntity extends RowEntity<UserEntity> {
   orders?: OrderEntity[];
 
   @OneToMany(
-    () => AddressEntity,
-    (address: AddressEntity) => address.user,
+    () => UserAddressEntity,
+    (address: UserAddressEntity) => address.user,
   )
-  addresses?: AddressEntity[];
+  addresses?: UserAddressEntity[];
 
   @ManyToMany(
     () => RestaurantEntity,
