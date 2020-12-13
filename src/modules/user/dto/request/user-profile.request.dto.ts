@@ -1,12 +1,12 @@
 import {
   IsArray,
   IsOptional,
-  IsPositive,
   IsString,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { IdAddressDto } from '@modules/address/dto/request/id-adress.request.dto';
 
 export class UserProfileRequestDto {
   @IsOptional()
@@ -16,12 +16,12 @@ export class UserProfileRequestDto {
 
   @IsOptional()
   @ApiProperty({
-    type: Number,
+    type: IdAddressDto,
     description: 'Id addresses',
     isArray: true,
   })
   @IsArray()
-  @Type(() => IsPositive())
+  @Type(() => IdAddressDto)
   @ValidateNested()
-  idFavoriteAddresses?: number[];
+  idFavoriteAddresses?: IdAddressDto[];
 }

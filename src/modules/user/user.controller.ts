@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  Post,
   Put,
   Request,
   UploadedFile,
@@ -26,6 +27,7 @@ import { IRequest } from '@shared/interfaces/IRequest';
 import { UserProfileRequestDto } from '@modules/user/dto/request/user-profile.request.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AvatarUserResponseDto } from '@modules/user/dto/response/avatar-user.response.dto';
+import { UserAddAddressDto } from '@modules/user/dto/request/user-add-address.request.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -110,11 +112,39 @@ export class UserController {
     type: ErrorDto,
     description: errors.UserNotFound.title,
   })
-  async update(
+  async updateProfile(
     @Request() req: IRequest,
     @Body() data: UserProfileRequestDto,
   ): Promise<UserProfileResponseDto> {
-    const user = await this.usersService.update(req.user.id, data);
+    const user = await this.usersService.updateProfile(
+      req.user.id,
+      data,
+    );
+    return mapToResponseDto(
+      UserProfileResponseDto,
+      this.usersService.getProfile(user),
+    );
+  }
+
+  @Post('add/address')
+  @ApiOperation({ summary: 'Add new address' })
+  @Auth()
+  @ApiOkResponse({
+    type: UserProfileResponseDto,
+    description: 'New address is added',
+  })
+  @ApiNotFoundResponse({
+    type: ErrorDto,
+    description: errors.NotIdentifiedAddress.title,
+  })
+  async addAddress(
+    @Request() req: IRequest,
+    @Body() data: UserAddAddressDto,
+  ): Promise<UserProfileResponseDto> {
+    const user = await this.usersService.addAddress(
+      req.user.id,
+      data,
+    );
     return mapToResponseDto(
       UserProfileResponseDto,
       this.usersService.getProfile(user),

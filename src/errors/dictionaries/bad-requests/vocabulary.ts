@@ -10,7 +10,7 @@ export const badRequestVocabulary: IBadRequestErrors = {
   ),
   EmailAlreadyUsed: new APIError(
     HttpStatuses.BAD,
-    'This email user-address is already being used',
+    'This email address is already being used',
     102,
   ),
   FileUploadingError: new APIError(
@@ -27,5 +27,10 @@ export const badRequestVocabulary: IBadRequestErrors = {
     HttpStatuses.BAD,
     'Avatar not download successfully.',
     105,
+  ),
+  NotIdentifiedAddress: new APIError(
+    HttpStatuses.BAD,
+    'Address not identified.',
+    106,
   ),
 };

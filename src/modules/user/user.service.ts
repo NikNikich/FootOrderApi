@@ -2,14 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { UserRepository } from '@modules/user/repository/user.repository';
 import { UserEntity } from '@modules/user/entity/user.entity';
 import * as bcrypt from 'bcryptjs';
-import { IUserCreateParams } from '@modules/auth/type/IUserPayload';
+import { IUserCreateParams } from '@modules/auth/interface/IUserPayload';
 import { ConfigService } from '@modules/config/config.service';
 import { UserProfileRequestDto } from '@modules/user/dto/request/user-profile.request.dto';
-import { UserAddressService } from '@modules/user-address/user-address.service';
+import { AddressService } from '@modules/address/address.service';
 import { UserRoleService } from '@modules/user-role/user-role.service';
 import { errors } from '@errors/errors';
 import * as fs from 'fs';
 import { UserProfileResponseDto } from '@modules/user/dto';
+import { UserAddAddressDto } from '@modules/user/dto/request/user-add-address.request.dto';
+import { IdAddressDto } from '@modules/address/dto/request/id-adress.request.dto';
 
 @Injectable()
 export class UserService {
@@ -17,7 +19,7 @@ export class UserService {
     private readonly configService: ConfigService,
     private readonly userRoleService: UserRoleService,
     private readonly userRepository: UserRepository,
-    private readonly addressService: UserAddressService,
+    private readonly addressService: AddressService,
   ) {}
 
   async findByEmail(email: string): Promise<UserEntity> {
@@ -54,19 +56,21 @@ export class UserService {
     return result;
   }
 
-  async update(
+  async updateProfile(
     id: number,
     params: UserProfileRequestDto,
   ): Promise<UserEntity> {
-    const user = await this.findOne(id);
     const { fullName, idFavoriteAddresses } = params;
     if (idFavoriteAddresses && idFavoriteAddresses.length > 0) {
-      idFavoriteAddresses.map(
-        async (idAddress: number): Promise<void> => {
-          await this.addressService.setFavorite(idAddress);
-        },
+      await Promise.all(
+        idFavoriteAddresses.map(
+          async (idAddress: IdAddressDto): Promise<void> => {
+            await this.addressService.setFavorite(idAddress.id);
+          },
+        ),
       );
     }
+    const user = await this.findOne(id);
     if (fullName) {
       user.fullName = fullName;
       return this.save(user);
@@ -115,6 +119,14 @@ export class UserService {
         }
       });
     });
+  }
+
+  async addAddress(
+    userId: number,
+    address: UserAddAddressDto,
+  ): Promise<UserEntity> {
+    await this.addressService.addUserAddress(userId, address.address);
+    return this.findOne(userId);
   }
 
   hashPassword(password: string): string {

@@ -3,7 +3,7 @@ import { Expose } from 'class-transformer';
 
 export class CreateResponseDto {
   @Expose()
-  @ApiProperty({ description: 'Email user-address' })
+  @ApiProperty({ description: 'Email address' })
   email: string;
 
   @Expose()

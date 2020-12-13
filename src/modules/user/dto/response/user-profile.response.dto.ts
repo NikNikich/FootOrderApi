@@ -1,10 +1,10 @@
 import { UserResponseDto } from '@modules/user/dto/response/user.response.dto';
-import { UserAddressEntity } from '@modules/user-address/entity/user-address.entity';
+import { AddressEntity } from '@modules/address/entity/address.entity';
 import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { RestaurantEntity } from '@modules/restaurant/entity/restaurant.entity';
 import { RestaurantResponseDto } from '@modules/restaurant/dto/response/restaurant.response.dto';
-import { UserAddressResponseDto } from '@modules/user-address/dto/response/user-address.response.dto';
+import { AddressResponseDto } from '@modules/address/dto/response/address.response.dto';
 
 export class UserProfileResponseDto extends UserResponseDto {
   @Expose()
@@ -19,13 +19,13 @@ export class UserProfileResponseDto extends UserResponseDto {
   selectedRestaurants?: RestaurantEntity[];
 
   @Expose()
-  @Type(() => UserAddressResponseDto)
+  @Type(() => AddressResponseDto)
   @ApiProperty({
-    type: UserAddressResponseDto,
-    description: 'user addresses',
+    type: AddressResponseDto,
+    description: 'favorite user addresses',
     isArray: true,
     minLength: 1,
     maxLength: 10_000,
   })
-  favoriteAddresses?: UserAddressEntity[];
+  favoriteAddresses?: AddressEntity[];
 }

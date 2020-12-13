@@ -10,20 +10,26 @@ import { validateOrReject } from 'class-validator';
 import { UserEntity } from '@modules/user/entity/user.entity';
 import { RowEntity } from '@modules/database/entity/row.entity';
 
-@Entity('user_address')
-export class UserAddressEntity extends RowEntity<UserAddressEntity> {
+@Entity('address')
+export class AddressEntity extends RowEntity<AddressEntity> {
   @Column({ type: 'varchar' })
-  address!: string;
+  name!: string;
 
-  @RelationId((addressUser: UserAddressEntity) => addressUser.user)
-  @Column({ type: 'integer' })
-  userId!: number;
+  @Column({ type: 'numeric' })
+  latitude!: number;
+
+  @Column({ type: 'numeric' })
+  longitude!: number;
+
+  @RelationId((addressUser: AddressEntity) => addressUser.user)
+  @Column({ type: 'integer', nullable: true })
+  userId?: number;
 
   @Column({ type: 'boolean', default: false })
   isFavorite?: boolean;
 
   @ManyToOne(() => UserEntity, (user: UserEntity) => user.orders)
-  user!: UserEntity;
+  user?: UserEntity;
 
   @BeforeInsert()
   @BeforeUpdate()

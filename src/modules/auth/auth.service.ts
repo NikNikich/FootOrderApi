@@ -3,7 +3,7 @@ import { ConfigService } from '@modules/config/config.service';
 import {
   IUserCreateParams,
   IUserPayloadParams,
-} from '@modules/auth/type/IUserPayload';
+} from '@modules/auth/interface/IUserPayload';
 import { JwtService } from '@nestjs/jwt';
 import { UserRoleEntity } from '@modules/user-role/entity/user-role.entity';
 import { UserRoles } from '@modules/user-role/enum/role.enum';

@@ -17,7 +17,7 @@ export class ConfigDto {
   NODE_ENV = 'development';
 
   /**
-   * type DB
+   * interface DB
    */
   @IsNotEmpty()
   @IsString()
@@ -111,4 +111,25 @@ export class ConfigDto {
   @IsOptional()
   @IsString()
   UPLOAD_PATH = './upload/file';
+
+  /**
+   * dadata api key
+   */
+  @IsNotEmpty()
+  @IsString()
+  DADATA_API_KEY: string;
+
+  /**
+   * dadata secret key
+   */
+  @IsNotEmpty()
+  @IsString()
+  DADATA_SECRET_KEY: string;
+
+  /**
+   *  dadata service url
+   */
+  @IsNotEmpty()
+  @IsString()
+  DADATA_URL: string;
 }
