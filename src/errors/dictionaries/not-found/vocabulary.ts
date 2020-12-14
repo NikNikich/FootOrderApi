@@ -14,4 +14,10 @@ export const notFoundRequestVocabulary: INotFoundRequestErrors = {
     'Address not found',
     2,
   ),
+
+  RestaurantNotFound: new APIError(
+    HttpStatuses.NOT_FOUND,
+    'Restaurant not found',
+    3,
+  ),
 };

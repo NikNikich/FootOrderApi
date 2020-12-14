@@ -13,6 +13,7 @@ import {
   ApiBody,
   ApiConsumes,
   ApiCreatedResponse,
+  ApiNotAcceptableResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -133,7 +134,7 @@ export class UserController {
     type: UserProfileResponseDto,
     description: 'New address is added',
   })
-  @ApiNotFoundResponse({
+  @ApiNotAcceptableResponse({
     type: ErrorDto,
     description: errors.NotIdentifiedAddress.title,
   })

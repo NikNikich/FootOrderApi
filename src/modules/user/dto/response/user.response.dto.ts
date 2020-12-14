@@ -23,8 +23,6 @@ export class UserResponseDto extends ConstructableDto {
     type: AddressResponseDto,
     description: 'user addresses',
     isArray: true,
-    minLength: 1,
-    maxLength: 10_000,
   })
   addresses?: AddressEntity[];
 }

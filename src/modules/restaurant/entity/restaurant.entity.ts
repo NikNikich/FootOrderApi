@@ -21,9 +21,6 @@ export class RestaurantEntity extends RowEntity<RestaurantEntity> {
   @Column({ type: 'varchar', length: 255, nullable: true })
   address?: string;
 
-  @Column({ type: 'varchar', nullable: true, length: 2050 })
-  photo?: string;
-
   @Column({ type: 'varchar', nullable: true, length: 15 })
   phone?: string;
 
