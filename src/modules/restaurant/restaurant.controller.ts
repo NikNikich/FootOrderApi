@@ -16,6 +16,8 @@ import { RestaurantMenuResponseDto } from '@modules/restaurant/dto/response/rest
 import { TransformIntPipe } from '@shared/pipe/transform-int.pipe';
 import { ErrorDto } from '@shared/dto/error.dto';
 import { errors } from '@errors/errors';
+import { RestaurantCommentsResponseDto } from '@modules/restaurant/dto/response/restaurant-comments.response.dto';
+import { Auth } from '@shared/decorators/auth';
 
 @ApiTags('restaurant')
 @Controller('restaurant')
@@ -39,11 +41,11 @@ export class RestaurantController {
   }
 
   @Get(':restaurantId/menu')
-  @ApiOperation({ summary: 'Get self profile data' })
+  @ApiOperation({ summary: 'Get self restaurant with menu' })
   @ApiOkResponse({
-    type: RestaurantResponseDto,
+    type: RestaurantMenuResponseDto,
     isArray: true,
-    description: 'User profile is downloaded',
+    description: 'Restaurant with menu is downloaded',
   })
   @ApiNotFoundResponse({
     type: ErrorDto,
@@ -56,5 +58,31 @@ export class RestaurantController {
       restaurantId,
     );
     return mapToResponseDto(RestaurantMenuResponseDto, restaurant);
+  }
+
+  @Get(':restaurantId/comments')
+  @Auth()
+  @ApiOperation({
+    summary: 'Get self Get self restaurant with comment',
+  })
+  @ApiOkResponse({
+    type: RestaurantCommentsResponseDto,
+    isArray: true,
+    description: 'Restaurant with menu is downloaded',
+  })
+  @ApiNotFoundResponse({
+    type: ErrorDto,
+    description: errors.RestaurantNotFound.title,
+  })
+  async getRestaurantComments(
+    @Param('restaurantId', TransformIntPipe) restaurantId: number,
+  ): Promise<RestaurantCommentsResponseDto> {
+    const restaurant = await this.restaurantService.getRestaurantWithComments(
+      restaurantId,
+    );
+    return mapToResponseDto(
+      RestaurantCommentsResponseDto,
+      restaurant,
+    );
   }
 }

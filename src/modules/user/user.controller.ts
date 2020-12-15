@@ -32,11 +32,11 @@ import { UserAddAddressDto } from '@modules/user/dto/request/user-add-address.re
 
 @ApiTags('user')
 @Controller('user')
+@Auth()
 export class UserController {
   constructor(private readonly usersService: UserService) {}
 
   @Put('avatar')
-  @Auth()
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
@@ -68,7 +68,6 @@ export class UserController {
 
   @Get('avatar')
   @ApiOperation({ summary: 'Download Avatar' })
-  @Auth()
   @ApiOkResponse({
     type: Buffer,
     description: 'User avatar downloaded',
@@ -83,7 +82,6 @@ export class UserController {
 
   @Get('profile')
   @ApiOperation({ summary: 'Get self profile data' })
-  @Auth()
   @ApiOkResponse({
     type: UserProfileResponseDto,
     description: 'User profile is downloaded',
@@ -104,7 +102,6 @@ export class UserController {
 
   @Put('profile')
   @ApiOperation({ summary: 'Update self profile data' })
-  @Auth()
   @ApiOkResponse({
     type: UserProfileResponseDto,
     description: 'User data is updated',
@@ -129,7 +126,6 @@ export class UserController {
 
   @Post('add/address')
   @ApiOperation({ summary: 'Add new address' })
-  @Auth()
   @ApiOkResponse({
     type: UserProfileResponseDto,
     description: 'New address is added',
