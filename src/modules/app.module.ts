@@ -3,6 +3,9 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { UserModule } from '@modules/user/user.module';
 import { DatabaseModule } from '@modules/database/database.module';
 import { ConfigModule } from '@modules/config/config.module';
+import { RestaurantModule } from '@modules/restaurant/restaurant.module';
+import { AddressModule } from '@modules/address/address.module';
+import { MenuItemModule } from '@modules/menu-item/menu-item.module';
 
 const envName = process.env.NODE_ENV
   ? `/.env.${process.env.NODE_ENV}`
@@ -14,6 +17,9 @@ const envName = process.env.NODE_ENV
     DatabaseModule,
     AuthModule,
     UserModule,
+    RestaurantModule,
+    AddressModule,
+    MenuItemModule,
   ],
   exports: [ConfigModule],
   providers: [ConfigModule],

@@ -5,6 +5,7 @@ import {
   Entity,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   RelationId,
 } from 'typeorm';
 import { RowEntity } from '@modules/database/entity/row.entity';
@@ -24,11 +25,24 @@ export class MenuItemEntity extends RowEntity<MenuItemEntity> {
   @Column({ type: 'varchar', length: 255, nullable: true })
   description?: string;
 
-  @Column({ type: 'varchar', nullable: true, length: 2050 })
-  photo?: string;
+  @Column({ type: 'numeric', nullable: true })
+  price?: number;
 
-  @Column({ type: 'numeric' })
-  price!: number;
+  @RelationId((item: MenuItemEntity) => item.category)
+  @Column({ type: 'integer', nullable: true })
+  categoryId?: number;
+
+  @ManyToOne(
+    () => MenuItemEntity,
+    (menuItemEntity: MenuItemEntity) => menuItemEntity.id,
+  )
+  category?: MenuItemEntity;
+
+  @OneToMany(
+    () => MenuItemEntity,
+    (menuItemEntity: MenuItemEntity) => menuItemEntity.category,
+  )
+  positions?: MenuItemEntity[];
 
   @ManyToOne(
     () => RestaurantEntity,

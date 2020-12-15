@@ -11,15 +11,17 @@ import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository,
 } from 'typeorm-transactional-cls-hooked';
+import { ConfigService } from '@modules/config/config.service';
 
 const initDocumentation = (
   app: INestApplication,
   appHost: string,
 ): void => {
   const docOptions = new DocumentBuilder()
-    .setTitle('API documentation')
+    .setTitle('API документация')
     .setVersion('1.0')
     .addServer(appHost)
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, docOptions);
   SwaggerModule.setup('api', app, document);
@@ -27,16 +29,18 @@ const initDocumentation = (
 
 async function bootstrap(): Promise<void> {
   const logger = new Logger(bootstrap.name);
-
   dotenv.config({ path: process.env.CONFIG_NAME || '.env' });
-  const appPort = process.env.BACKEND_PORT || 3000;
-  const appPrefix = process.env.GLOBAL_CONTROLLER_PREFIX || 'v1';
-  const appHost = process.env.SWAGGER_HOST
-    ? process.env.SWAGGER_HOST
-    : `localhost:${appPort}`;
   const app = await NestFactory.create(AppModule, {
     logger: new Logger(),
   });
+  const {
+    BACKEND_PORT,
+    GLOBAL_CONTROLLER_PREFIX,
+    SWAGGER_HOST,
+  } = app.get<ConfigService>('ConfigService').config;
+  const appPort = BACKEND_PORT;
+  const appPrefix = GLOBAL_CONTROLLER_PREFIX;
+  const appHost = SWAGGER_HOST;
   app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({

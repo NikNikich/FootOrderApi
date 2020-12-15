@@ -17,6 +17,28 @@ export class ConfigDto {
   NODE_ENV = 'development';
 
   /**
+   * server port
+   */
+  @IsOptional()
+  @IsInt()
+  @Type(() => Number)
+  BACKEND_PORT = 3000;
+
+  /**
+   * global controller prefix
+   */
+  @IsOptional()
+  @IsString()
+  GLOBAL_CONTROLLER_PREFIX = 'v1';
+
+  /**
+   * Swagger host
+   */
+  @IsOptional()
+  @IsString()
+  SWAGGER_HOST = `http://localhost:${this.BACKEND_PORT}`;
+
+  /**
    * interface DB
    */
   @IsNotEmpty()
