@@ -27,11 +27,11 @@ export class RestaurantController {
   ) {}
 
   @Get()
-  @ApiOperation({ summary: 'Get self profile data' })
+  @ApiOperation({ summary: 'Get self restaurants data' })
   @ApiOkResponse({
     type: RestaurantResponseDto,
     isArray: true,
-    description: 'User profile is downloaded',
+    description: 'Restaurants list is downloaded',
   })
   async getRestaurant(): Promise<
     ListResponseDto<RestaurantResponseDto>
@@ -63,7 +63,7 @@ export class RestaurantController {
   @Get(':restaurantId/comments')
   @Auth()
   @ApiOperation({
-    summary: 'Get self Get self restaurant with comment',
+    summary: 'Get self restaurant with comment',
   })
   @ApiOkResponse({
     type: RestaurantCommentsResponseDto,

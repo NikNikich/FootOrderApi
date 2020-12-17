@@ -39,4 +39,16 @@ export const badRequestVocabulary: IBadRequestErrors = {
     'Menu from another restaurant.',
     107,
   ),
+
+  OrderAnotherUser: new APIError(
+    HttpStatuses.BAD,
+    'Order from another user.',
+    108,
+  ),
+
+  CannotChangeOrder: new APIError(
+    HttpStatuses.BAD,
+    "Can't change order.",
+    109,
+  ),
 };
