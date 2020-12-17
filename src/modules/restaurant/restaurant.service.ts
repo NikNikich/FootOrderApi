@@ -21,9 +21,7 @@ export class RestaurantService {
   async getRestaurantWithMenu(
     restaurantId: number,
   ): Promise<RestaurantMenuResponseDto> {
-    const restaurant = await this.restaurantRepository.findByIdOrReject(
-      restaurantId,
-    );
+    const restaurant = await this.getRestaurant(restaurantId);
     const menu = await this.menuItemService.getRestaurantMenu(
       restaurantId,
     );
@@ -33,12 +31,16 @@ export class RestaurantService {
   async getRestaurantWithComments(
     restaurantId: number,
   ): Promise<RestaurantCommentsResponseDto> {
-    const restaurant = await this.restaurantRepository.findByIdOrReject(
-      restaurantId,
-    );
+    const restaurant = await this.getRestaurant(restaurantId);
     const comments = await this.commentService.getRestaurantComments(
       restaurantId,
     );
     return { ...restaurant, comments };
+  }
+
+  async getRestaurant(
+    restaurantId: number,
+  ): Promise<RestaurantEntity> {
+    return this.restaurantRepository.findByIdOrReject(restaurantId);
   }
 }

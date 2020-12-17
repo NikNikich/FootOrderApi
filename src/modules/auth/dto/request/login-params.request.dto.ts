@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { ConstructableDto } from '@shared/dto';
 
-export class LoginParamsRequestDto {
+export class LoginParamsRequestDto extends ConstructableDto<LoginParamsRequestDto> {
   @IsNotEmpty()
   @IsString()
   @IsEmail()

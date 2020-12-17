@@ -33,4 +33,22 @@ export const badRequestVocabulary: IBadRequestErrors = {
     'Address not identified.',
     106,
   ),
+
+  MenuAnotherRestaurant: new APIError(
+    HttpStatuses.BAD,
+    'Menu from another restaurant.',
+    107,
+  ),
+
+  OrderAnotherUser: new APIError(
+    HttpStatuses.BAD,
+    'Order from another user.',
+    108,
+  ),
+
+  CannotChangeOrder: new APIError(
+    HttpStatuses.BAD,
+    "Can't change order.",
+    109,
+  ),
 };

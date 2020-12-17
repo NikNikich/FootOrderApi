@@ -65,7 +65,9 @@ export class UserService {
       await Promise.all(
         idFavoriteAddresses.map(
           async (idAddress: IdAddressDto): Promise<void> => {
-            await this.addressService.setFavorite(idAddress.id);
+            await this.addressService.setFavorite(
+              idAddress.idAddress,
+            );
           },
         ),
       );

@@ -4,4 +4,6 @@ export interface INotFoundRequestErrors {
   UserNotFound: APIError;
   AddressNotFound: APIError;
   RestaurantNotFound: APIError;
+  MenuItemNotFound: APIError;
+  OrderNotFound: APIError;
 }

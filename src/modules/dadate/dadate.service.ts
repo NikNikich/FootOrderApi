@@ -2,7 +2,7 @@ import { HttpService, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@modules/config/config.service';
 import { IDaDateAddress } from '@modules/address/interface/dadata-address.interface';
 import { errors } from '@errors/errors';
-import { head } from 'lodash';
+import { head, isNil } from 'lodash';
 
 @Injectable()
 export class DaDataService {
@@ -22,6 +22,9 @@ export class DaDataService {
   ) {}
 
   async getGeoKodeAddress(address: string): Promise<IDaDateAddress> {
+    if (isNil(address)) {
+      throw errors.NotIdentifiedAddress;
+    }
     const config = {
       headers: this.headers,
       mode: 'cors',

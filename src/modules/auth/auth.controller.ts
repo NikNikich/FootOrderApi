@@ -28,9 +28,9 @@ import { errors } from '@errors/errors';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Post('sign-in')
   @ApiBody({ type: LoginParamsRequestDto })
   @UseGuards(AuthGuard('local'))
-  @Post('sign-in')
   @ApiOperation({ summary: 'Sign in' })
   @ApiCreatedResponse({
     type: LoginResponseDto,

@@ -14,6 +14,7 @@ import { RestaurantEntity } from '@modules/restaurant/entity/restaurant.entity';
 import { validateOrReject } from 'class-validator';
 import { MenuItemEntity } from '@modules/menu-item/entity/menu-item.entity';
 import { OrderStatuses } from '@modules/order/enum/order-status.enum';
+import { AddressEntity } from '@modules/address/entity/address.entity';
 
 @Entity('order')
 export class OrderEntity extends RowEntity<OrderEntity> {
@@ -33,20 +34,30 @@ export class OrderEntity extends RowEntity<OrderEntity> {
   @Column({ type: 'integer' })
   userId!: number;
 
+  @RelationId((orderAddress: OrderEntity) => orderAddress.address)
+  @Column({ type: 'integer' })
+  addressId!: number;
+
   @RelationId(
     (orderRestaurant: OrderEntity) => orderRestaurant.restaurant,
   )
   @Column({ type: 'integer' })
   restaurantId!: number;
 
+  @ManyToOne(
+    () => AddressEntity,
+    (address: AddressEntity) => address.orders,
+  )
+  address?: AddressEntity;
+
   @ManyToOne(() => UserEntity, (user: UserEntity) => user.orders)
-  user!: UserEntity;
+  user?: UserEntity;
 
   @ManyToOne(
     () => RestaurantEntity,
     (restaurant: RestaurantEntity) => restaurant.orders,
   )
-  restaurant!: RestaurantEntity;
+  restaurant?: RestaurantEntity;
 
   @ManyToMany(
     () => MenuItemEntity,

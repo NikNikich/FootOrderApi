@@ -13,5 +13,5 @@ export class CommentResponseDto {
     type: UserResponseDto,
     description: 'Users comment',
   })
-  user: UserResponseDto;
+  user?: UserResponseDto;
 }
