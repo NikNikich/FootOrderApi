@@ -7,4 +7,5 @@ export interface IBadRequestErrors {
   NotSaveUserError: APIError;
   NotDownloadAvatarError: APIError;
   NotIdentifiedAddress: APIError;
+  MenuAnotherRestaurant: APIError;
 }

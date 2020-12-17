@@ -20,4 +20,16 @@ export const notFoundRequestVocabulary: INotFoundRequestErrors = {
     'Restaurant not found',
     3,
   ),
+
+  MenuItemNotFound: new APIError(
+    HttpStatuses.NOT_FOUND,
+    'Menu item not found',
+    4,
+  ),
+
+  OrderNotFound: new APIError(
+    HttpStatuses.NOT_FOUND,
+    'Menu item not found',
+    5,
+  ),
 };

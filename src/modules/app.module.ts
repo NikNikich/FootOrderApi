@@ -6,6 +6,7 @@ import { ConfigModule } from '@modules/config/config.module';
 import { RestaurantModule } from '@modules/restaurant/restaurant.module';
 import { AddressModule } from '@modules/address/address.module';
 import { MenuItemModule } from '@modules/menu-item/menu-item.module';
+import { OrderModule } from '@modules/order/order.module';
 
 const envName = process.env.NODE_ENV
   ? `/.env.${process.env.NODE_ENV}`
@@ -20,6 +21,7 @@ const envName = process.env.NODE_ENV
     RestaurantModule,
     AddressModule,
     MenuItemModule,
+    OrderModule,
   ],
   exports: [ConfigModule],
   providers: [ConfigModule],

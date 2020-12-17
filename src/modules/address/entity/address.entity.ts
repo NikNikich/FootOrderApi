@@ -4,11 +4,13 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   RelationId,
 } from 'typeorm';
 import { validateOrReject } from 'class-validator';
 import { UserEntity } from '@modules/user/entity/user.entity';
 import { RowEntity } from '@modules/database/entity/row.entity';
+import { OrderEntity } from '@modules/order/entity/order.entity';
 
 @Entity('address')
 export class AddressEntity extends RowEntity<AddressEntity> {
@@ -28,8 +30,11 @@ export class AddressEntity extends RowEntity<AddressEntity> {
   @Column({ type: 'boolean', default: false })
   isFavorite?: boolean;
 
-  @ManyToOne(() => UserEntity, (user: UserEntity) => user.orders)
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.addresses)
   user?: UserEntity;
+
+  @OneToMany(() => OrderEntity, (order: OrderEntity) => order.address)
+  orders?: OrderEntity[];
 
   @BeforeInsert()
   @BeforeUpdate()

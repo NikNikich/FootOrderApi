@@ -28,13 +28,13 @@ export class CommentEntity extends RowEntity<CommentEntity> {
   restaurantId!: number;
 
   @ManyToOne(() => UserEntity, (user: UserEntity) => user.comments)
-  user!: UserEntity;
+  user?: UserEntity;
 
   @ManyToOne(
     () => RestaurantEntity,
     (restaurant: RestaurantEntity) => restaurant.comments,
   )
-  restaurant!: RestaurantEntity;
+  restaurant?: RestaurantEntity;
 
   @BeforeInsert()
   @BeforeUpdate()
