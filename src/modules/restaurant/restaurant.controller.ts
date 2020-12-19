@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Put, Request } from '@nestjs/common';
 import {
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -18,6 +18,7 @@ import { ErrorDto } from '@shared/dto/error.dto';
 import { errors } from '@errors/errors';
 import { RestaurantCommentsResponseDto } from '@modules/restaurant/dto/response/restaurant-comments.response.dto';
 import { Auth } from '@shared/decorators/auth';
+import { IUserPayloadParams } from '@modules/auth/interface/IUserPayload';
 
 @ApiTags('restaurant')
 @Controller('restaurant')
@@ -84,5 +85,29 @@ export class RestaurantController {
       RestaurantCommentsResponseDto,
       restaurant,
     );
+  }
+
+  @Put(':restaurantId/selected')
+  @Auth()
+  @ApiOperation({
+    summary: 'Put restaurant selected',
+  })
+  @ApiOkResponse({
+    type: Boolean,
+    description: 'Restaurant is selected',
+  })
+  @ApiNotFoundResponse({
+    type: ErrorDto,
+    description: errors.RestaurantNotFound.title,
+  })
+  async setRestaurantSelected(
+    @Param('restaurantId', TransformIntPipe) restaurantId: number,
+    @Request() req: { user: IUserPayloadParams },
+  ): Promise<boolean> {
+    await this.restaurantService.setRestaurantSelected(
+      restaurantId,
+      req.user.id,
+    );
+    return true;
   }
 }

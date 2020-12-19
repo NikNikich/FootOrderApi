@@ -5,8 +5,34 @@ import { errors } from '@errors/errors';
 
 @EntityRepository(RestaurantEntity)
 export class RestaurantRepository extends BaseRepository<RestaurantEntity> {
-  async findByIdOrReject(id: number): Promise<RestaurantEntity> {
+  async getByIdOrReject(id: number): Promise<RestaurantEntity> {
     const restaurant = await this.findOne(id);
+    if (!restaurant) {
+      throw errors.RestaurantNotFound;
+    }
+    return restaurant;
+  }
+
+  async getByIdWithCommentsOrReject(
+    id: number,
+  ): Promise<RestaurantEntity> {
+    const restaurant = await this.findOne({
+      where: { id },
+      relations: ['comments'],
+    });
+    if (!restaurant) {
+      throw errors.RestaurantNotFound;
+    }
+    return restaurant;
+  }
+
+  async getByIdWithSelectedUserOrReject(
+    id: number,
+  ): Promise<RestaurantEntity> {
+    const restaurant = await this.findOne({
+      where: { id },
+      relations: ['selectedUser'],
+    });
     if (!restaurant) {
       throw errors.RestaurantNotFound;
     }
