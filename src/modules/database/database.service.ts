@@ -31,9 +31,11 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       database: TYPEORM_DATABASE,
       entities: [`${resolve(__dirname, '..')}/**/*.entity{.ts,.js}`],
       migrations: [`${resolve(__dirname)}/migrations/{*.ts,*.js}`],
-      migrationsRun: true,
+      migrationsRun: false,
       logging: TYPEORM_LOGGING,
-      cli: { migrationsDir: './migrations' },
+      cli: {
+        migrationsDir: `${resolve(__dirname)}/migrations/{*.ts,*.js}`,
+      },
       namingStrategy: new SnakeNamingStrategy(),
       synchronize: TYPEORM_SYNCHRONIZE || true,
     };
