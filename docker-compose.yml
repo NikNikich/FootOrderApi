@@ -1,19 +1,33 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:latest
-    container_name: foot-order-database
-    restart: always
-    ports:
-      - ${TYPEORM_PORT:-6100}:${INTERNAL_DB_PORT:-5432}
-    environment:
-      - POSTGRES_USER=${TYPEORM_USERNAME:-postgres}
-      - POSTGRES_PASSWORD=${TYPEORM_PASSWORD:-postgres}
-      - POSTGRES_DB=${TYPEORM_DATABASE:-foot-order}
-    volumes:
-      - database_data:/var/lib/postgresql/data
 
-volumes:
-  database_data:
-    external: false
+  foot-order:
+    build: .
+    environment:
+      - TYPEORM_CONNECTION = {TYPEORM_CONNECTION}
+      - TYPEORM_DATABASE=${TYPEORM_DATABASE}
+      - TYPEORM_HOST=${TYPEORM_HOST}
+      - TYPEORM_PORT=${TYPEORM_PORT}
+      - TYPEORM_PASSWORD=${TYPEORM_PASSWORD}
+      - TYPEORM_USERNAME=${TYPEORM_USERNAME}
+      - TYPEORM_SYNCHRONIZE=${TYPEORM_SYNCHRONIZE}
+      - TYPEORM_MIGRATIONS_RUN=${TYPEORM_MIGRATIONS_RUN}
+      - JWT_SECRET=${JWT_SECRET}
+      - TOKEN_TIME=${TOKEN_TIME}
+      - REFRESH_TOKEN_LIFE_TIME=${REFRESH_TOKEN_LIFE_TIME}
+      - JWT_RESTORE_SECRET=${JWT_RESTORE_SECRET}
+      - DADATA_API_KEY=${DADATA_API_KEY}
+      - DADATA_SECRET_KEY=${DADATA_SECRET_KEY}
+      - DADATA_URL=${DADATA_URL}
+
+    ports:
+      - ${PORT}:3000
+    restart: always
+    networks:
+      - foot-order_api
+
+networks:
+  fitually:
+    external:
+      name: "${NETWORK_NAME:-foot-order_api-dev}"

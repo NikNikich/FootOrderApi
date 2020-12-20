@@ -56,7 +56,7 @@ export class OrderController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get active orders' })
+  @ApiOperation({ summary: 'Get list active orders' })
   @ApiCreatedResponse({
     type: OrderResponseDto,
     isArray: true,
