@@ -12,6 +12,7 @@ import * as fs from 'fs';
 import { UserProfileResponseDto } from '@modules/user/dto';
 import { UserAddAddressDto } from '@modules/user/dto/request/user-add-address.request.dto';
 import { IdAddressDto } from '@modules/address/dto/request/id-adress.request.dto';
+import { hashPassword } from '@shared/functions/hash-password.shared';
 
 @Injectable()
 export class UserService {
@@ -45,7 +46,7 @@ export class UserService {
   async create(params: IUserCreateParams): Promise<UserEntity> {
     const { password, roles, email } = params;
     await this.userRepository.checkEmailUsage(email);
-    const hash = this.hashPassword(password);
+    const hash = hashPassword(password);
     const userRecord = new UserEntity({
       email,
       password: hash,
@@ -129,9 +130,5 @@ export class UserService {
   ): Promise<UserEntity> {
     await this.addressService.addUserAddress(userId, address.address);
     return this.findOne(userId);
-  }
-
-  hashPassword(password: string): string {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
   }
 }
