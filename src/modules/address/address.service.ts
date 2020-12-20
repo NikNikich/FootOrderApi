@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@modules/config/config.service';
 import { AddressRepository } from '@modules/address/repository/address.repository';
 import { AddressEntity } from '@modules/address/entity/address.entity';
 import { DADATA_KEY } from '@modules/dadate/dadata.const';
@@ -9,20 +8,19 @@ import { errors } from '@errors/errors';
 @Injectable()
 export class AddressService {
   constructor(
-    private readonly configService: ConfigService,
-    private readonly userAddressRepository: AddressRepository,
+    private readonly addressRepository: AddressRepository,
     @Inject(DADATA_KEY)
     private readonly daDataService: DaDataService,
   ) {}
 
   async findOne(addressId: number): Promise<AddressEntity> {
-    return this.userAddressRepository.findByIdOrReject(addressId);
+    return this.addressRepository.findByIdOrReject(addressId);
   }
 
   async setFavorite(addressId: number): Promise<AddressEntity> {
     const address = await this.findOne(addressId);
     address.isFavorite = true;
-    return this.userAddressRepository.save(address);
+    return this.addressRepository.save(address);
   }
 
   async addUserAddress(
@@ -35,7 +33,7 @@ export class AddressService {
     if (!address || !address.result) {
       throw errors.NotIdentifiedAddress;
     }
-    return this.userAddressRepository.addNewAddress(
+    return this.addressRepository.addNewAddress(
       address.result,
       address.geo_lat,
       address.geo_lon,
