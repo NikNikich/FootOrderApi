@@ -1,7 +1,6 @@
 # Foot Order API
 
 
-####description
 
 
 Перед вами API для заказа еды.
