@@ -91,6 +91,15 @@ export class ConfigDto {
   TYPEORM_SYNCHRONIZE = false;
 
   /**
+   * migrations is run
+   * @default false
+   */
+  @IsOptional()
+  @IsBoolean()
+  @Transform((value) => getBooleanValue(value))
+  TYPEORM_MIGRATIONS_RUN = false;
+
+  /**
    * typeOrm is logging
    * @default false
    */

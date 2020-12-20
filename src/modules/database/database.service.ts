@@ -21,6 +21,7 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       TYPEORM_PORT,
       TYPEORM_SYNCHRONIZE,
       TYPEORM_LOGGING,
+      TYPEORM_MIGRATIONS_RUN,
     } = this.configService.config;
     return {
       type: TYPEORM_CONNECTION,
@@ -31,13 +32,13 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       database: TYPEORM_DATABASE,
       entities: [`${resolve(__dirname, '..')}/**/*.entity{.ts,.js}`],
       migrations: [`${resolve(__dirname)}/migrations/{*.ts,*.js}`],
-      migrationsRun: false,
+      migrationsRun: TYPEORM_MIGRATIONS_RUN,
       logging: TYPEORM_LOGGING,
       cli: {
         migrationsDir: `${resolve(__dirname)}/migrations/{*.ts,*.js}`,
       },
       namingStrategy: new SnakeNamingStrategy(),
-      synchronize: TYPEORM_SYNCHRONIZE || true,
+      synchronize: TYPEORM_SYNCHRONIZE,
     };
   }
 }

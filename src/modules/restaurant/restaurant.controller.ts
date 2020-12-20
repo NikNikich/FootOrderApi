@@ -28,7 +28,7 @@ export class RestaurantController {
   ) {}
 
   @Get()
-  @ApiOperation({ summary: 'Get self restaurants data' })
+  @ApiOperation({ summary: 'Get list restaurants data' })
   @ApiOkResponse({
     type: RestaurantResponseDto,
     isArray: true,
@@ -42,7 +42,7 @@ export class RestaurantController {
   }
 
   @Get(':restaurantId/menu')
-  @ApiOperation({ summary: 'Get self restaurant with menu' })
+  @ApiOperation({ summary: 'Get restaurant with menu' })
   @ApiOkResponse({
     type: RestaurantMenuResponseDto,
     isArray: true,
@@ -64,7 +64,7 @@ export class RestaurantController {
   @Get(':restaurantId/comments')
   @Auth()
   @ApiOperation({
-    summary: 'Get self restaurant with comment',
+    summary: 'Get restaurant with comment',
   })
   @ApiOkResponse({
     type: RestaurantCommentsResponseDto,
