@@ -90,7 +90,7 @@ PUT /v1/order/{orderId} - Edit order
 PUT /v1/order/{orderId}/checkout - Checkout order
 ```
  
-#### environment
+#### Dependencies
 postgres:13.1
 
 node:14.15
@@ -115,7 +115,7 @@ Add `.env` file with content:
  DADATA_SECRET_KEY = your dadata secret key
  DADATA_URL = https://cleaner.dadata.ru
  TYPEORM_MIGRATIONS_RUN = false
-
+ BACKEND_PORT = 5000
 ```
 
 #### Clone project from repository
