@@ -5,7 +5,7 @@ services:
   foot-order:
     build: .
     environment:
-      - TYPEORM_CONNECTION = {TYPEORM_CONNECTION}
+      - TYPEORM_CONNECTION=${TYPEORM_CONNECTION}
       - TYPEORM_DATABASE=${TYPEORM_DATABASE}
       - TYPEORM_HOST=${TYPEORM_HOST}
       - TYPEORM_PORT=${TYPEORM_PORT}
@@ -21,13 +21,7 @@ services:
       - DADATA_SECRET_KEY=${DADATA_SECRET_KEY}
       - DADATA_URL=${DADATA_URL}
 
-    ports:
-      - ${PORT}:3000
     restart: always
-    networks:
-      - foot-order_api
-
-networks:
-  fitually:
-    external:
-      name: "${NETWORK_NAME:-foot-order_api-dev}"
+    network_mode: host
+    ports:
+      - ${BACKEND_PORT}:3000
