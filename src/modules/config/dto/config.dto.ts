@@ -36,7 +36,7 @@ export class ConfigDto {
    */
   @IsOptional()
   @IsString()
-  SWAGGER_HOST = `http://localhost:${this.BACKEND_PORT}`;
+  SWAGGER_HOST = `http://localhost:`;
 
   /**
    * interface DB

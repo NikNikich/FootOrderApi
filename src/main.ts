@@ -40,7 +40,7 @@ async function bootstrap(): Promise<void> {
   } = app.get<ConfigService>('ConfigService').config;
   const appPort = BACKEND_PORT;
   const appPrefix = GLOBAL_CONTROLLER_PREFIX;
-  const appHost = SWAGGER_HOST;
+  const appHost = SWAGGER_HOST + BACKEND_PORT;
   app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({
