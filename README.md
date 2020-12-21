@@ -20,7 +20,7 @@
 (TYPEORM_MIGRATIONS_RUN = true) 
 
 Для более полного ознакомления с апи рекомендую после установки 
-перейти в Swagger(<host>:<port>/api). Там более подробно.
+перейти в Swagger(host:port/api). Там более подробно.
 Сдесь же приведу краткое описание. 
 
 ```
@@ -66,7 +66,7 @@ PUT /v1/order/{orderId}/checkout - оформить заказ
  (TYPEORM_MIGRATIONS_RUN = true)
  
  For a more complete acquaintance with the api, I recommend it after installation
- go to Swagger (<host>: <port> / api). There is more detail.
+ go to Swagger (host:port/api). There is more detail.
  Here is a short description.
  
 ```
@@ -118,6 +118,10 @@ Add `.env` file with content:
 
 ```
 
+#### Clone project from repository
+
+`$ git clone https://github.com/NikNikich/FootOrderApi.git`
+
 #### Install dependencies and launch server
 
 1. Execute `yarn install` command.
@@ -129,15 +133,12 @@ Execute `yarn start:dev` command.
 
 #### Generate migration script
 
-Execute
+Execute `yarn migration:generate`
 
-`npm run migration:generate -- -n MigrationName`
+#### Build container
+ 
+First database
+`docker-compose -f docker-compose.db.yml up`
+then container
+`docker-compose up`
 
-
-command. 'MigrationName' is the name of migration script.
-
-#### Update entities module from repository
-
-Clone a project, run the commands:
-
-`$ git clone https://github.com/NikNikich/FootOrderApi.git`
